@@ -1,0 +1,744 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+      monitor: 'docker-host-alpha'
+
+# Load and evaluate rules in this file every 'evaluation_interval' seconds.
+rule_files:
+  - "alert.rules"
+
+# A scrape configuration containing exactly one endpoint to scrape.
+scrape_configs:
+  - job_name: 'nodeexporter'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['nodeexporter:9100']
+
+  - job_name: 'DKTH'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.18.152:9100']
+        labels:
+          instance: 'HIS-APP-01-152'
+      - targets: ['192.168.18.153:9100']
+        labels:
+          instance: 'HIS-APP-02-153'
+      - targets: ['192.168.18.154:9100']
+        labels:
+          instance: 'EMR-APP-01-154'
+      - targets: ['192.168.18.155:9100']
+        labels:
+          instance: 'EMR-APP-02-155'
+      - targets: ['192.168.18.202:9100']
+        labels:
+          instance: 'DB-Master-202'  
+      - targets: ['192.168.18.203:9100']
+        labels:
+          instance: 'DB-Slave-203' 
+      - targets: ['192.168.18.148:9100']
+        labels:
+          instance: 'HA-01-148' 
+      - targets: ['192.168.18.149:9100']
+        labels:
+          instance: 'HA-02-149'   
+
+  - job_name: 'SPAUL'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['172.16.16.14:9100']
+        labels:
+          instance: 'HIS-APP-01-14'
+      - targets: ['172.16.16.15:9100']
+        labels:
+          instance: 'HIS-APP-02-15'      
+      - targets: ['172.16.16.16:9100']
+        labels:
+          instance: 'EMR-APP-01-16'
+      - targets: ['172.16.16.17:9100']
+        labels:
+          instance: 'EMR-APP-02-17'
+      - targets: ['172.16.16.18:9100']
+        labels:
+          instance: 'HA-01-18'
+      - targets: ['172.16.16.19:9100']
+        labels:
+          instance: 'HA-02-19'
+      - targets: ['172.16.16.21:9100']
+        labels:
+          instance: 'Zabbix-SRV-21'
+      - targets: ['172.16.16.22:9100']
+        labels:
+          instance: 'DB-Master-22'
+      - targets: ['172.16.16.23:9100']
+        labels:
+          instance: 'DB-Slave-23'
+      - targets: ['172.16.16.24:9100']
+        labels:
+          instance: 'Report-SRV-24'
+      - targets: ['172.16.16.27:9100']
+        labels:
+          instance: 'DA-SRV-27'
+      - targets: ['172.16.16.30:9100']
+        labels:
+          instance: 'NFS-SRV-30'
+
+  - job_name: "BV198"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['172.18.0.11:9100']
+        labels:
+          instance: 'HIS-APP-01-11'
+      - targets: ['172.18.0.12:9100']
+        labels:
+          instance: 'HIS-APP-02-12'
+      - targets: ['172.18.0.13:9100']
+        labels:
+          instance: 'DB-Master-13'
+      - targets: ['172.18.0.14:9100']
+        labels:
+          instance: 'DB-Slave-14'  
+
+  - job_name: "DHY"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['172.17.50.163:9100']
+        labels:
+          instance: 'HIS-APP-01-163'
+      - targets: ['172.17.50.164:9100']
+        labels:
+          instance: 'HIS-APP-02-164'
+      - targets: ['172.17.50.162:9100']
+        labels:
+          instance: 'HIS-APP-03-162'
+      - targets: ['172.17.50.150:9100']
+        labels:
+          instance: 'HIS-APP-DB-Stable-150'
+      - targets: ['172.17.50.170:9100']
+        labels:
+          instance: 'APP-03-170'
+      - targets: ['172.17.50.168:9100']
+        labels:
+          instance: 'DB-Master-168'
+      - targets: ['172.17.50.161:9100']
+        labels:
+          instance: 'DB-Slave-161'
+      - targets: ['172.17.50.172:9100']
+        labels:
+          instance: 'EMR-APP-01-172'
+      - targets: ['172.17.50.182:9100']
+        labels:
+          instance: 'EMR-APP-02-182'
+      - targets: ['172.17.50.173:9100']
+        labels:
+          instance: 'Report-SRV-01-173'
+      - targets: ['172.17.50.174:9100']
+        labels:
+          instance: 'Report-SRV-02-174'
+      - targets: ['172.17.50.10:9100']
+        labels:
+          instance: 'TTB-APP-Old-181'
+#      - targets: ['172.17.50.12:9100']
+#        labels:
+#          instance: 'ISPAY-APP-12'
+      - targets: ['125.212.201.33:9100']
+        labels:
+          instance: 'DHY-Online'
+      - targets: ['172.17.50.175:9100']
+        labels:
+          instance: 'NCKH-APP-175'
+      - targets: ['172.17.50.180:9100']
+        labels:
+          instance: 'TTB-APP-DB-180'
+
+  - job_name: "BV110"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.110.102.88:9100']
+      - targets: ['10.110.102.109:9100']
+      - targets: ['10.110.102.67:9100']
+      - targets: ['10.110.102.113:9100']
+      - targets: ['10.110.201.66:9100']
+      - targets: ['10.110.201.68:9100']
+      - targets: ['10.110.201.114:9100']
+      - targets: ['10.110.115.89:9100']
+      - targets: ['10.110.115.110:9100']
+      - targets: ['10.110.115.66:9100']
+      - targets: ['10.110.115.112:9100']
+      - targets: ['10.110.1.3:9100']
+      - targets: ['10.110.55.11:9100'] 
+
+  - job_name: "BVE"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.0.238:9100']
+        labels:
+          instance: 'EMR-APP-238'
+      - targets: ['192.168.0.242:9100']
+        labels:
+          instance: 'ISPAY-WEB-APP-242'
+      - targets: ['192.168.0.243:9100']
+        labels:
+          instance: 'Report-SRV-243'
+      - targets: ['192.168.0.244:9100']
+        labels:
+          instance: 'HIS-APP-244'
+      - targets: ['192.168.0.245:9100']
+        labels:
+          instance: 'DB-Master-245'
+      - targets: ['192.168.0.247:9100']
+        labels:
+          instance: 'DB-Slave-247'
+      - targets: ['192.168.0.248:9100']
+        labels:
+          instance: 'NFS-SRV-248'
+      - targets: ['192.168.0.250:9100']
+        labels:
+          instance: 'HA-01-250'
+      - targets: ['192.168.0.251:9100']
+        labels:
+          instance: 'HA-02-251'  
+      - targets: ['125.212.249.213:9100']
+        labels:
+          instance: 'WEB-Cloud'        
+
+  - job_name: "BVP"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.0.30.24:9100']
+        labels:
+          instance: 'HIS-APP-01-24'
+      - targets: ['10.0.30.26:9100']
+        labels:
+          instance: 'HIS-APP-02-26'
+      - targets: ['10.0.30.31:9100']
+        labels:
+          instance: 'HIS-APP-03-31'
+      - targets: ['10.0.30.60:9100']
+        labels:
+          instance: 'HIS-APP-04-60'
+      - targets: ['10.0.30.61:9100']
+        labels:
+          instance: 'HIS-APP-05-61'
+      - targets: ['10.0.30.32:9100']
+        labels:
+          instance: 'KIOSK-APP-32'
+      - targets: ['10.0.30.150:9100']
+        labels:
+          instance: 'Report-SRV-150'
+      - targets: ['10.0.30.151:9100']
+        labels:
+          instance: 'HA-01-151'
+      - targets: ['10.0.30.155:9100']
+        labels:
+          instance: 'HA-02-155'
+      - targets: ['10.0.30.200:9100']
+        labels:
+          instance: 'DASHBOARD-APP-200'
+      - targets: ['10.0.30.224:9100']
+        labels:
+          instance: 'TTB-APP-200'
+      - targets: ['10.0.30.2:9100']
+        labels:
+          instance: 'DB-Master-02'
+      - targets: ['10.0.30.3:9100']
+        labels:
+          instance: 'DB-Slave-03'
+      - targets: ['103.164.34.5:9100']
+        labels:
+          instance: 'NCKH-APP-Cloud'
+      - targets: ['103.164.34.10:9100']
+        labels:
+          instance: 'DB-NCKH-Cloud'
+
+  - job_name: "Mediplus"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.3.0.82:9100']
+        labels:
+          instance: 'HIS-APP-01-82'
+      - targets: ['10.3.0.83:9100']
+        labels:
+          instance: 'HIS-APP-02-83'
+      - targets: ['10.3.0.84:9100']
+        labels:
+          instance: 'EMR-APP-01-84'
+      - targets: ['10.3.0.85:9100']
+        labels:
+          instance: 'EMR-APP-02-85'
+      - targets: ['10.3.0.86:9100']
+        labels:
+          instance: 'HA-01-86'
+      - targets: ['10.3.0.87:9100']
+        labels:
+          instance: 'HA-02-87'
+      - targets: ['10.3.0.95:9100']
+        labels:
+          instance: 'Report-SRV-95'
+      - targets: ['10.3.0.17:9100']
+        labels:
+          instance: 'DB-Master-17'
+      - targets: ['10.3.0.81:9100']
+        labels:
+          instance: 'DB-Slave-01-81'
+      - targets: ['10.3.0.96:9100']
+        labels:
+          instance: 'DB-Slave-02-96'
+      - targets: ['10.3.0.89:9100']
+        labels:
+          instance: 'Zabbix-SRV-89'
+
+  - job_name: "Thien An"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.100.100:9100']
+        labels:
+          instance: 'HIS-APP-01-100'
+      - targets: ['192.168.100.101:9100']
+        labels:
+          instance: 'HIS-APP-02-101'
+      - targets: ['192.168.100.105:9100']
+        labels:
+          instance: 'EMR-HA-105'
+      - targets: ['192.168.100.102:9100']
+        labels:
+          instance: 'DB-Master-102'
+      - targets: ['192.168.100.103:9100']
+        labels:
+          instance: 'DB-Slave-103'
+
+  - job_name: "Mat TW"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['172.62.10.19:9100']
+        labels:
+          instance: 'HA-01-19'
+      - targets: ['172.62.10.20:9100']
+        labels:
+          instance: 'HIS-EMR-APP-01-20'
+      - targets: ['172.62.10.21:9100']
+        labels:
+          instance: 'DB-Master-21'
+      - targets: ['172.62.10.22:9100']
+        labels:
+          instance: 'HA-02-22'      
+      - targets: ['172.62.10.23:9100']
+        labels:
+          instance: 'HIS-EMR-APP-02-23'
+      - targets: ['172.62.10.24:9100']
+        labels:
+          instance: 'DB-Slave-24'
+
+  - job_name: "TTTM-BVE"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.1.97:9100']
+        labels:
+          instance: 'HIS-APP-01-97'
+      - targets: ['192.168.1.98:9100']
+        labels:
+          instance: 'HIS-APP-02-98'
+      - targets: ['192.168.1.100:9100']
+        labels:
+          instance: 'DB-Master-Oracle-100'
+      - targets: ['192.168.1.101:9100']
+        labels:
+          instance: 'DB-Slave-Oracle-101'
+      - targets: ['192.168.1.241:9100']
+        labels:
+          instance: 'Sakura-APP-01-241'
+      - targets: ['192.168.1.242:9100']
+        labels:
+          instance: 'Sakura-APP-02-242'
+      - targets: ['192.168.1.104:9100']
+        labels:
+          instance: 'DB-Sakura-Master-104'
+      - targets: ['192.168.1.107:9100']
+        labels:
+          instance: 'DB-Sakura-Slave-107'
+      - targets: ['192.168.1.252:9100']
+        labels:
+          instance: 'NFS-SRV-252'
+
+  - job_name: "Dong Tam"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.10.15.31:9100']
+        labels:
+          instance: 'HIS-APP-01-31'
+      - targets: ['10.10.15.32:9100']
+        labels:
+          instance: 'HIS-APP-02-32'
+      - targets: ['10.10.15.33:9100']
+        labels:
+          instance: 'DB-Master-33'
+      - targets: ['10.10.15.34:9100']
+        labels:
+          instance: 'DB-Slave-34'
+ 
+  - job_name: "Sakura"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['54.169.24.78:9100']
+        labels:
+          instance: 'HIS-APP-Sakura'
+
+  - job_name: "ISofhcare"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['54.179.20.40:9100']
+        labels:
+          instance: 'HA-Server'
+      - targets: ['54.251.13.109:9100']
+        labels:
+          instance: 'ISofhcare-APP'
+      - targets: ['18.140.108.175:9100']
+        labels:
+          instance: 'DB-Master-Old'
+      - targets: ['13.213.154.221:9100']
+        labels:
+          instance: 'DB-Master-New'
+      - targets: ['13.229.40.73:9100']
+        labels:
+          instance: 'DB-Slave'
+
+  - job_name: "ISOFH"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.0.0.15:9100']
+        labels:
+          instance: 'HA-Server-15'
+      - targets: ['10.0.0.23:9100']
+        labels:
+          instance: 'DA-Server-23'
+      - targets: ['10.0.0.45:9100']
+        labels:
+          instance: 'NCKH-APP-45'
+      - targets: ['10.0.0.46:9100']
+        labels:
+          instance: 'ISC-Pharmacy-46'
+      - targets: ['10.0.0.47:9100']
+        labels:
+          instance: 'ISofhChain-47'
+      - targets: ['10.0.0.49:9100']
+        labels:  
+          instance: 'ISofh-DEMO-49'
+      - targets: ['10.0.0.52:9100']
+        labels:
+          instance: 'Jenkins2-52'
+      - targets: ['10.0.0.55:9100']
+        labels:
+          instance: 'Jira-Conf-55'
+      - targets: ['10.0.0.56:9100']
+        labels:
+          instance: 'Jira-Conf-56'
+      - targets: ['10.0.0.57:9100']
+        labels:
+          instance: 'Jira-DB-57'
+      - targets: ['10.0.0.61:9100']
+        labels:
+          instance: 'Jenkins3-61'
+      - targets: ['10.0.0.69:9100']
+        labels:
+          instance: 'ISC-DB-TEST-69'
+      - targets: ['10.0.0.70:9100']
+        labels:
+          instance: 'ISC-KSNK-APP-70'
+      - targets: ['10.0.0.73:9100']
+        labels:
+          instance: 'Gitlab-73'     
+      - targets: ['10.0.0.87:9100']
+        labels:
+          instance: 'QLDT-APP-87' 
+      - targets: ['10.0.0.88:9100']
+        labels:
+          instance: 'ISC-APP-88' 
+      - targets: ['10.0.0.93:9100']
+        labels:
+          instance: 'EMR-Test-93' 
+      - targets: ['10.0.0.94:9100']
+        labels:
+          instance: 'HIS-Test-94' 
+      - targets: ['10.0.0.95:9100']
+        labels:
+          instance: 'HIS-Test-95' 
+      - targets: ['10.0.0.96:9100']
+        labels:
+          instance: 'Jenkins1-96' 
+      - targets: ['10.0.0.97:9100']
+        labels:
+          instance: 'HIS-Stable-97' 
+      - targets: ['10.0.0.98:9100']
+        labels:
+          instance: 'Jenkins-CDYT-98' 
+      - targets: ['10.0.0.99:9100']
+        labels:
+          instance: 'HR-APP-99' 
+      - targets: ['10.0.0.100:9100']
+        labels:
+          instance: 'SSH-Server-100' 
+      - targets: ['10.0.0.101:9100']
+        labels:
+          instance: 'Prometheus-Monitor-101' 
+      - targets: ['10.0.0.102:9100']
+        labels:
+          instance: 'Ansible-Server-102'
+      - targets: ['10.0.0.104:9100']
+        labels:
+          instance: 'GenQR-APP-104' 
+      - targets: ['10.0.0.126:9100']
+        labels:
+          instance: 'NextCloud-126' 
+      - targets: ['10.0.0.127:9100']
+        labels:
+          instance: 'DB-Stable-127' 
+      - targets: ['10.0.0.128:9100']
+        labels:
+          instance: 'DB-Release-128' 
+      - targets: ['10.0.0.129:9100']
+        labels:
+          instance: 'DB-Test-129' 
+      - targets: ['10.0.0.212:9100']
+        labels:
+          instance: 'DB-Oracle-Test-212'
+      - targets: ['10.0.0.213:9100']
+        labels:
+          instance: 'DB-Oracle-Test-213'
+      - targets: ['10.0.0.178:9100']
+        labels:
+          instance: 'Rancher-178'
+      - targets: ['10.0.0.230:9100']
+        labels:
+          instance: 'Config-Server-230'
+
+  - job_name: "ISOFH-PRODUCT"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.0.0.58:9100']
+        labels:
+          instance: 'Ivisitor-APP-58' 
+      - targets: ['10.0.0.197:9100']
+        labels:
+          instance: 'BVP-WEB-APP-197' 
+      - targets: ['10.0.0.109:9100']
+        labels:
+          instance: 'DB-Master-109'
+      - targets: ['10.0.0.110:9100']
+        labels:
+          instance: 'DB-Slave-110'      
+      - targets: ['10.0.0.151:9100']
+        labels:
+          instance: 'HA-Server-151'
+      - targets: ['10.0.0.166:9100']
+        labels:
+          instance: 'HIS-CTM-166' 
+      - targets: ['10.0.0.75:9100']
+        labels:
+          instance: 'DB-Farm-01-75'
+      - targets: ['10.0.0.76:9100']
+        labels:
+          instance: 'DB-Farm-02-76' 
+
+  - job_name: "Bach Mai"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.0.1.30:9100']
+        labels:
+          instance: 'HIS-APP-30'
+      - targets: ['10.0.1.34:9100']
+        labels:
+          instance: 'DB-HIS-34'
+
+  - job_name: 'ISOFH-DB'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.0.0.127:9187']
+        labels:
+          instance: 'ISOFH-DB-Stable-127'
+      - targets: ['10.0.0.128:9187']
+        labels:
+          instance: 'ISOFH-DB-Release-128'
+      - targets: ['10.0.0.129:9187']
+        labels:
+          instance: 'ISOFH-DB-Test-129'
+      - targets: ['10.0.0.109:9187']
+        labels:
+          instance: 'ISOFH-DB-Master-109'
+      - targets: ['10.0.0.110:9187']
+        labels:
+          instance: 'ISOFH-DB-Slave-110'
+
+  - job_name: '198-DB'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['172.18.0.13:9187']
+        labels:
+          instance: '198-DB-Master-13'
+      - targets: ['172.18.0.14:9187']
+        labels:
+          instance: '198-DB-Slave-14'
+
+  - job_name: 'DHY-DB'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['172.17.50.168:9187']
+        labels:
+          instance: 'DHY-DB-Master-168'
+      - targets: ['172.17.50.161:9187']
+        labels:
+          instance: 'DHY-DB-Slave-161'
+
+  - job_name: 'BVE-DB'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['192.168.0.245:9187']
+        labels:
+          instance: 'BVE-DB-Master-245'
+      - targets: ['192.168.0.247:9187']
+        labels:
+          instance: 'BVE-DB-Slave-247'
+
+  - job_name: 'MATTW-DB'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['172.62.10.21:9187']
+        labels:
+          instance: 'MATTW-DB-Master-21'
+      - targets: ['172.62.10.24:9187']
+        labels:
+          instance: 'MATTW-DB-Master-24'
+
+  - job_name: 'BVP-DB'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['103.164.34.10:9187']
+        labels:
+          instance: 'BVP-DB-NCKH'
+
+  - job_name: 'cadvisor'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['cadvisor:8080']
+      - targets: ['192.168.100.105:9092']
+        labels:
+          instance: 'ThienAn_EMR_192.168.100.105'
+      - targets: ['172.16.16.14:9092']
+        labels:
+          instance: 'Spaul_HIS_01_172.16.16.14'
+      - targets: ['172.16.16.15:9092']
+        labels:
+          instance: 'Spaul_HIS_02_172.16.16.15'
+      - targets: ['172.16.16.16:9092']
+        labels:
+          instance: 'Spaul_EMR_172.16.16.16'
+      - targets: ['172.16.16.24:9092']
+        labels:
+          instance: 'Spaul_Report_172.16.16.24'
+      - targets: ['10.0.1.34:9092']
+        labels:
+          instance: 'BachMai_Report_10.0.1.34'
+      - targets: ['192.168.18.152:9092']
+        labels:
+          instance: 'DKTH_HIS_01_192.168.18.152'
+      - targets: ['192.168.18.153:9092']
+        labels:
+          instance: 'DKTH_HIS_02_192.168.18.153'
+      - targets: ['192.168.18.154:9092']
+        labels:
+          instance: 'DKTH_EMR_192.168.18.154'
+      - targets: ['192.168.18.160:9092']
+        labels:
+          instance: 'DKTH_TTB_192.168.18.160'
+      - targets: ['192.168.0.244:9092']
+        labels:
+          instance: 'E_HIS_01_192.168.0.244'
+      - targets: ['192.168.0.247:9092']
+        labels:
+          instance: 'E_HIS_02_192.168.0.247'
+      - targets: ['192.168.0.238:9092']
+        labels:
+          instance: 'E_EMR_192.168.0.238'
+      - targets: ['10.3.0.82:9092']
+        labels:
+          instance: 'Mediplus_HIS_01_10.3.0.82'
+      - targets: ['10.3.0.83:9092']
+        labels:
+          instance: 'Mediplus_HIS_02_10.3.0.83'
+      - targets: ['10.3.0.84:9092']
+        labels:
+          instance: 'Mediplus_EMR_10.3.0.84'
+      - targets: ['10.3.0.95:9092']
+        labels:
+          instance: 'Mediplus_Report_10.3.0.95'
+      - targets: ['172.17.50.163:9099']
+        labels:
+          instance: 'DHY_HIS_01_172.17.50.163'
+      - targets: ['172.17.50.164:9099']
+        labels:
+          instance: 'DHY_HIS_02_172.17.50.164'
+      - targets: ['172.17.50.162:9099']
+        labels:
+          instance: 'DHY_HIS_02_172.17.50.162'
+      - targets: ['172.17.50.182:9099']
+        labels:
+          instance: 'DHY_EMR_172.17.50.182'
+      - targets: ['172.17.50.173:9099']
+        labels:
+          instance: 'DHY_Report_01_172.17.50.173'
+      - targets: ['172.17.50.174:9099']
+        labels:
+          instance: 'DHY_Report_02_172.17.50.174'
+      - targets: ['54.251.13.109:9092']
+        labels:
+          instance: 'ISC_APP_54.251.13.109'
+
+  - job_name: 'prometheus'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'pushgateway'
+    scrape_interval: 10s
+    honor_labels: true
+    static_configs:
+      - targets: ['pushgateway:9091']
+
+  - job_name: 'blackbox_icmp'
+    metrics_path: /probe
+    params:
+      module: [icmp_ipv4]
+    static_configs:
+      - targets:
+        - 8.8.8.8
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 10.0.0.101:9115
+        
+  - job_name: 'blackbox_http'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - https://google.com.vn
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 10.0.0.101:9115
+
+alerting:
+  alertmanagers:
+  - scheme: http
+    static_configs:
+    - targets: 
+      - 'alertmanager:9093'

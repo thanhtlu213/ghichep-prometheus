@@ -1,0 +1,12 @@
+psql -U postgres -d postgres -W -h localhost
+Chivas#12345
+
+docker rm -f postgres_exporter && docker run -d --restart always --name postgres_exporter -p 9187:9187 --net=host -e DATA_SOURCE_NAME="postgresql://postgres:Chivas%2312345@localhost:5432/?sslmode=disable" wrouesnel/postgres_exporter
+
+
+yum --disablerepo=pgdg94 install -y nano ntp net-tools bind-utils iperf telnet rsync wget htop iotop iftop sysstat autossh lsof
+yum --disablerepo=pgdg94 install -y yum-utils  device-mapper-persistent-data lvm2
+yum-config-manager  --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+
+yum --disablerepo=pgdg94 -y install docker-ce docker-ce-cli containerd.io

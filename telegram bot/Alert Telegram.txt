@@ -1,0 +1,198 @@
+------------Cài đặt Blackbox Exporter trên Server Prometheus (192.168.11.250)-------------
+#Blackbox Exporter: Pull các metrics HTTP, HTTPS, DNS, TCP và ICMP trên các targets
+#Cài đặt Blackbox trên server Prometheus có IP 192.168.11.250
+vi /etc/sysctl.conf hoặc /etc/sysctl.conf
+add vào:
+net.ipv4.ping_group_range = 0 2147483647
+
+sudo sysctl --system
+
+cd /opt/
+wget https://github.com/prometheus/blackbox_exporter/releases/download/v0.19.0/blackbox_exporter-0.19.0.linux-amd64.tar.gz
+tar -xzvf blackbox_exporter-0.19.0.linux-amd64.tar.gz
+mv blackbox_exporter-0.19.0.linux-amd64/blackbox_exporter /usr/local/bin/
+#Tạo user trên hệ thống để chạy dịch vụ Blackbox Exporter
+useradd --no-create-home --shell /bin/false blackbox_exporter
+mkdir /etc/blackbox_exporter
+mv blackbox_exporter-0.19.0.linux-amd64/blackbox.yml /etc/blackbox_exporter/
+
+vi /etc/systemd/system/blackbox_exporter.service
+[Unit]
+Description=Blackbox Exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=blackbox_exporter
+Group=blackbox_exporter
+Type=simple
+ExecStart=/usr/local/bin/blackbox_exporter --config.file /etc/blackbox_exporter/blackbox.yml
+
+[Install]
+WantedBy=multi-user.target
+
+#Sửa file blackbox.yml để lấy metric ICMP, HTTP của ipv4 (mặc định lấy của ipv6)
+vi /etc/blackbox_exporter/blackbox.yml
+Sửa:
+  icmp:
+    prober: icmp
+Thành 
+  icmp_ipv4:
+    prober: icmp
+    icmp:
+      preferred_ip_protocol: ip4
+	  
+Sửa
+  http_2xx:
+    prober: http
+Thành
+  http_2xx:
+    prober: http
+    http:
+      preferred_ip_protocol: ip4
+sudo systemctl daemon-reload
+sudo systemctl start blackbox_exporter
+sudo systemctl enable blackbox_exporter
+sudo systemctl status blackbox_exporter
+
+#Kiểm tra
+curl -s http://192.168.11.250:9115/metrics
+#Truy cập vào Prometheus Server 192.168.11.250
+cd monitor/Docker-Compose-Prometheus-and-Grafana/prometheus
+vi prometheus.yml
+Thêm vào:
+  - job_name: 'blackbox_icmp'
+    metrics_path: /probe
+    params:
+      module: [icmp_ipv4]
+    static_configs:
+      - targets:
+        - 8.8.8.8
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 192.168.11.250:9115
+        
+  - job_name: 'blackbox_http'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - https://google.com.vn
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 192.168.11.250:9115
+#Restart container prometheus
+docker restart prometheus
+#Kiểm tra
+http://192.168.11.250:9115/probe?module=icmp_ipv4&target=8.8.8.8
+Thấy Probe_success 1 là ok
+
+----------------Cấu hình Alert trong prometheus gửi tin nhắn đến Telegram-------------------------
+#Cài đặt Golang
+wget https://golang.org/dl/go1.17.1.linux-amd64.tar.gz
+tar -xvzf go1.17.1.linux-amd64.tar.gz
+mv go /usr/local
+export GOROOT=/usr/local/go
+mkdir -p /root/etc/telegram_alert
+export GOPATH=$HOME/etc/telegram_alert
+export PATH=$PATH:/usr/local/go/bin
+vi ~/.bash_profile
+Thay thế thành:
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+#PATH=$PATH:$HOME/bin
+
+#export PATH
+
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/etc/telegram_alert
+export PATH=$PATH:/usr/local/go/bin
+
+source ~/.bash_profile
+go version
+go env
+
+#Test xem Go chạy chưa
+mkdir -p /root/etc/telegram_alert/src/hello
+cd /root/etc/telegram_alert/src/hello
+vi hello.go
+Thêm vào:
+
+package main
+
+import "fmt"
+
+func main() {
+fmt.Printf("Hello from Thanhnv \n")
+}
+
+
+go mod init
+go build
+ll hello
+./hello
+mkdir /root/etc/telegram_alert/src/bot
+cd /root/etc/telegram_alert/src/bot
+git clone https://github.com/inCaller/prometheus_bot.git
+cd prometheus_bot
+make clean
+make
+
+#Tạo bot và add bot vào group trên telegram sau đó lấy ID group và token của bot
+#https://www.teleme.io/articles/create_your_own_telegram_bot?hl=vi
+#Tạo user trên hệ thống để chạy dịch vụ Node Exporter
+useradd --no-create-home --shell /bin/false telegrambot1
+vi /etc/systemd/system/telegrambot.service
+[Unit]
+Description=Node Exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=telegrambot1
+Group=telegrambot1
+Type=simple
+WorkingDirectory=/etc/telegrambot/
+ExecStart=/usr/local/bin/prometheus_bot -c /etc/telegrambot/config.yaml -l "0.0.0.0:9087"
+
+[Install]
+WantedBy=multi-user.target
+
+mv prometheus_bot /usr/local/bin/
+mkdir /etc/telegrambot/
+cd testdata/
+cp production_example.tmpl /etc/telegrambot/template.tmpl
+
+cd /etc/telegrambot/
+vi config.yaml
+Thêm vào:
+telegram_token: "1902876989:AAHTPnpvgj-6lQG-v7Tq8aEfoQAl2UuHvM0"
+
+# ONLY IF YOU USING TEMPLATE required for test
+template_path: "template.tmpl"
+time_zone: "Asia/Ho_Chi_Minh"
+split_token: "|"
+
+# ONLY IF YOU USING DATA FORMATTING FUNCTION, NOTE for developer: important or test fail
+time_outdata: "02/01/2006 15:04:05"
+split_msg_byte: 4000
+
+systemctl daemon-reload
+systemctl enable telegrambot.service
+systemctl start telegrambot.service

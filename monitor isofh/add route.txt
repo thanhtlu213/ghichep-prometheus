@@ -1,0 +1,4 @@
+ssh vào server prometheus (10.0.0.101)
+
+ip route add 10.3.0.0/24 via 10.0.50.1 dev ens224
+ip route add 172.16.16.0/24 via 10.0.50.1 dev ens224
