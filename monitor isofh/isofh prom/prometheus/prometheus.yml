@@ -44,7 +44,13 @@ scrape_configs:
           instance: 'HA-01-148' 
       - targets: ['192.168.18.149:9100']
         labels:
-          instance: 'HA-02-149'   
+          instance: 'HA-02-149'
+      - targets: ['192.168.18.199:9100']
+        labels:
+          instance: 'APP-STABLE-199'
+      - targets: ['192.168.18.200:9100']
+        labels:
+          instance: 'DB-STABLE-200'   
 
   - job_name: 'SPAUL'
     scrape_interval: 5s
@@ -126,12 +132,12 @@ scrape_configs:
       - targets: ['172.17.50.161:9100']
         labels:
           instance: 'DB-Slave-161'
-      - targets: ['172.17.50.172:9100']
-        labels:
-          instance: 'EMR-APP-01-172'
       - targets: ['172.17.50.182:9100']
         labels:
-          instance: 'EMR-APP-02-182'
+          instance: 'EMR-APP-01-182'
+      - targets: ['172.17.50.184:9100']
+        labels:
+          instance: 'EMR-APP-02-184'
       - targets: ['172.17.50.173:9100']
         labels:
           instance: 'Report-SRV-01-173'
@@ -379,13 +385,6 @@ scrape_configs:
         labels:
           instance: 'DB-Slave-34'
  
-  - job_name: "Sakura"
-    scrape_interval: 5s
-    static_configs:
-      - targets: ['54.169.24.78:9100']
-        labels:
-          instance: 'HIS-APP-Sakura'
-
   - job_name: "ISofhcare"
     scrape_interval: 5s
     static_configs:
@@ -441,6 +440,12 @@ scrape_configs:
       - targets: ['10.0.0.61:9100']
         labels:
           instance: 'Jenkins3-61'
+      - targets: ['10.0.0.62:9100']
+        labels:
+          instance: 'Sakura-App-62'
+      - targets: ['10.0.0.65:9100']
+        labels:
+          instance: 'Sakura-DB-65'
       - targets: ['10.0.0.69:9100']
         labels:
           instance: 'ISC-DB-TEST-69'
@@ -455,7 +460,10 @@ scrape_configs:
           instance: 'QLDT-APP-87' 
       - targets: ['10.0.0.88:9100']
         labels:
-          instance: 'ISC-APP-88' 
+          instance: 'ISC-APP-88'
+      - targets: ['10.0.0.91:9100']
+        labels:
+          instance: 'EMR-Test-91' 
       - targets: ['10.0.0.93:9100']
         labels:
           instance: 'EMR-Test-93' 
