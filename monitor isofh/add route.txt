@@ -1,4 +1,13 @@
 ssh vào server prometheus (10.0.0.101)
 
-ip route add 10.3.0.0/24 via 10.0.50.1 dev ens224
-ip route add 172.16.16.0/24 via 10.0.50.1 dev ens224
+ip route add 172.17.50.0/24 via 10.0.0.1 dev ens192 proto static metric 100
+ip route add 10.0.30.0/24 via 10.0.50.1 dev ens224 proto static metric 100 
+ip route add 192.168.18.0/24 via 10.0.50.1 dev ens224 proto static metric 100   
+ip route add 192.168.102.0/24 via 10.0.50.1 dev ens224 proto static metric 100  
+ip route add 10.110.1.0/24 via 10.0.50.1 dev ens224 proto static metric 100  
+ip route add 10.110.102.0/24 via 10.0.50.1 dev ens224 proto static metric 100  
+ip route add 10.110.115.0/24 via 10.0.50.1 dev ens224 proto static metric 100  
+ip route add 10.110.201.0/24 via 10.0.50.1 dev ens224 proto static metric 100  
+ip route add 10.110.55.0/24 via 10.0.50.1 dev ens224 proto static metric 100  
+ip route add 172.16.16.0/24 via 10.0.50.1 dev ens224 proto static metric 100  
+ip route add 10.3.0.0/24 via 10.0.50.1 dev ens224 proto static metric 100

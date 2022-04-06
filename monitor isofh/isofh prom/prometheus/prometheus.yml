@@ -132,6 +132,9 @@ scrape_configs:
       - targets: ['172.17.50.161:9100']
         labels:
           instance: 'DB-Slave-161'
+      - targets: ['172.17.50.169:9100']
+        labels:
+          instance: 'DB-Master-02-169'
       - targets: ['172.17.50.182:9100']
         labels:
           instance: 'EMR-APP-01-182'
