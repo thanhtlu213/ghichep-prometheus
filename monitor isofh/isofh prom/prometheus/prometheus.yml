@@ -111,15 +111,15 @@ scrape_configs:
   - job_name: "DHY"
     scrape_interval: 5s
     static_configs:
-      - targets: ['172.17.50.163:9100']
-        labels:
-          instance: 'HIS-APP-01-163'
-      - targets: ['172.17.50.164:9100']
-        labels:
-          instance: 'HIS-APP-02-164'
       - targets: ['172.17.50.162:9100']
         labels:
-          instance: 'HIS-APP-03-162'
+          instance: 'HIS-APP-01-162'
+      - targets: ['172.17.50.163:9100']
+        labels:
+          instance: 'HIS-APP-02-163'
+      - targets: ['172.17.50.164:9100']
+        labels:
+          instance: 'HIS-APP-03-164'
       - targets: ['172.17.50.150:9100']
         labels:
           instance: 'HIS-APP-DB-Stable-150'
@@ -134,10 +134,13 @@ scrape_configs:
           instance: 'DB-Slave-161'
       - targets: ['172.17.50.169:9100']
         labels:
-          instance: 'DB-Master-02-169'
-      - targets: ['172.17.50.182:9100']
+          instance: 'DB-Master-EMR-169'
+      - targets: ['172.17.50.190:9100']
         labels:
-          instance: 'EMR-APP-01-182'
+          instance: 'DB-Master-EMR-190'      
+      - targets: ['172.17.50.172:9100']
+        labels:
+          instance: 'EMR-APP-01-172'
       - targets: ['172.17.50.184:9100']
         labels:
           instance: 'EMR-APP-02-184'
@@ -684,18 +687,21 @@ scrape_configs:
       - targets: ['10.3.0.95:9092']
         labels:
           instance: 'Mediplus_Report_10.3.0.95'
-      - targets: ['172.17.50.163:9099']
-        labels:
-          instance: 'DHY_HIS_01_172.17.50.163'
-      - targets: ['172.17.50.164:9099']
-        labels:
-          instance: 'DHY_HIS_02_172.17.50.164'
       - targets: ['172.17.50.162:9099']
         labels:
-          instance: 'DHY_HIS_02_172.17.50.162'
-      - targets: ['172.17.50.182:9099']
+          instance: 'DHY_HIS_01_172.17.50.162'
+      - targets: ['172.17.50.163:9099']
         labels:
-          instance: 'DHY_EMR_172.17.50.182'
+          instance: 'DHY_HIS_02_172.17.50.163'
+      - targets: ['172.17.50.164:9099']
+        labels:
+          instance: 'DHY_HIS_03_172.17.50.164'
+      - targets: ['172.17.50.172:9099']
+        labels:
+          instance: 'DHY_EMR_01_172.17.50.172'
+      - targets: ['172.17.50.184:9099']
+        labels:
+          instance: 'DHY_EMR_02_172.17.50.184'
       - targets: ['172.17.50.173:9099']
         labels:
           instance: 'DHY_Report_01_172.17.50.173'
