@@ -396,19 +396,22 @@ scrape_configs:
     static_configs:
       - targets: ['54.179.20.40:9100']
         labels:
-          instance: 'HA-Server'
+          instance: 'HA-Server-54.179.20.40'
       - targets: ['54.251.13.109:9100']
         labels:
-          instance: 'ISofhcare-APP'
+          instance: 'ISofhcare-APP-54.251.13.109'
       - targets: ['18.140.108.175:9100']
         labels:
-          instance: 'DB-Master-Old'
+          instance: 'DB-Master-Old-18.140.108.175'
       - targets: ['13.213.154.221:9100']
         labels:
-          instance: 'DB-Master-New'
-      - targets: ['13.229.40.73:9100']
+          instance: 'DB-Master-New-13.213.154.221'
+      - targets: ['13.215.174.69:9100']
         labels:
-          instance: 'DB-Slave'
+          instance: 'DB-Slave-01-13.215.174.69'
+      - targets: ['54.254.163.179:9100']
+        labels:
+          instance: 'DB-Slave-02-54.254.163.179'
 
   - job_name: "ISOFH"
     scrape_interval: 5s
@@ -434,9 +437,9 @@ scrape_configs:
       - targets: ['10.0.0.52:9100']
         labels:
           instance: 'Jenkins2-52'
-      - targets: ['10.0.0.55:9100']
+      - targets: ['10.0.0.44:9100']
         labels:
-          instance: 'Jira-Conf-55'
+          instance: 'Jira-Conf-44'
       - targets: ['10.0.0.56:9100']
         labels:
           instance: 'Jira-Conf-56'
