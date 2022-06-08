@@ -1,13 +1,16 @@
+#=== Download and unzip package
 yum install wget -y
 cd /opt/
 wget https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz
 tar -xzvf node_exporter-0.18.1.linux-amd64.tar.gz
+
+###=== Copy file to folder
 mv node_exporter-0.18.1.linux-amd64/node_exporter /usr/local/bin/
 
-
+###===###=== Create user node_exporter
 useradd --no-create-home --shell /bin/false node_exporter
 
-
+###=== Create service for node_exporter
 vi /etc/systemd/system/node_exporter.service
 [Unit]
 Description=Node Exporter
@@ -23,15 +26,17 @@ ExecStart=/usr/local/bin/node_exporter
 [Install]
 WantedBy=default.target
 
-
+###=== Start and enable service with boot
 systemctl daemon-reload
 systemctl enable node_exporter
 systemctl restart node_exporter
 systemctl status node_exporter
 
+###=== Open port for firewalld
 firewall-cmd --zone=public --add-port=9100/tcp --permanent
 firewall-cmd --reload
 
+#== Check port
 netstat -natlp | grep 9100
 
 
