@@ -32,3 +32,6 @@ sudo systemctl status node_exporter
 
 #== 6. You can see all the server metrics or node metrics from the following link.
 http://<Node-IP>:9100/metrics
+
+--------------------------------------------------
+Link: https://docs.vmware.com/en/VMware-vRealize-Operations-Management-Pack-for-Kubernetes/1.6/kubernetes-solution/GUID-A1B68BE5-EF38-48E1-AA80-FD71E6F19989.html
