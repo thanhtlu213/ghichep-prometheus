@@ -7,7 +7,7 @@ tar -xzvf node_exporter-0.18.1.linux-amd64.tar.gz
 ###=== Copy file to folder
 mv node_exporter-0.18.1.linux-amd64/node_exporter /usr/local/bin/
 
-###===###=== Create user node_exporter
+###=== Create user node_exporter
 useradd --no-create-home --shell /bin/false node_exporter
 
 ###=== Create service for node_exporter
