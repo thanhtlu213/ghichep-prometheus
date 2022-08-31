@@ -120,9 +120,6 @@ scrape_configs:
       - targets: ['172.17.50.164:9100']
         labels:
           instance: 'HIS-APP-03-164'
-      - targets: ['172.17.50.197:9100']
-        labels:
-          instance: 'HIS-APP-04-197'
       - targets: ['172.17.50.150:9100']
         labels:
           instance: 'HIS-APP-DB-Stable-150'
@@ -131,22 +128,19 @@ scrape_configs:
           instance: 'APP-03-170'
       - targets: ['172.17.50.168:9100']
         labels:
-          instance: 'DB-HIS-Master-168'
+          instance: 'DB-Master-168'
       - targets: ['172.17.50.161:9100']
         labels:
-          instance: 'DB-HIS-Slave-161'
+          instance: 'DB-Slave-161'
       - targets: ['172.17.50.169:9100']
         labels:
           instance: 'DB-Master-EMR-169'
       - targets: ['172.17.50.190:9100']
         labels:
-          instance: 'DB-EMR-Master-190'
-      - targets: ['172.17.50.192:9100']
+          instance: 'DB-Master-EMR-190'      
+      - targets: ['172.17.50.172:9100']
         labels:
-          instance: 'DB-EMR-Slave-192'      
-      - targets: ['172.17.50.182:9100']
-        labels:
-          instance: 'EMR-APP-01-182'
+          instance: 'EMR-APP-01-172'
       - targets: ['172.17.50.184:9100']
         labels:
           instance: 'EMR-APP-02-184'
@@ -213,9 +207,6 @@ scrape_configs:
       - targets: ['192.168.0.248:9100']
         labels:
           instance: 'NFS-SRV-248'
-      - targets: ['192.168.0.111:9100']
-        labels:
-          instance: 'NFS-SRV-111'
       - targets: ['192.168.0.250:9100']
         labels:
           instance: 'HA-01-250'
@@ -229,12 +220,6 @@ scrape_configs:
   - job_name: "BVP"
     scrape_interval: 5s
     static_configs:
-      - targets: ['10.0.30.33:9100']
-        labels:
-          instance: 'HIS-APP-New-33'
-      - targets: ['10.0.30.09:9100']
-        labels:
-          instance: 'HIS-APP-New-09'
       - targets: ['10.0.30.24:9100']
         labels:
           instance: 'HIS-APP-01-24'
@@ -274,9 +259,6 @@ scrape_configs:
       - targets: ['10.0.30.3:9100']
         labels:
           instance: 'DB-Slave-03'
-      - targets: ['10.0.30.09:9100']
-        labels:
-          instance: 'DB-EMR-Slave-09'
       - targets: ['103.164.34.5:9100']
         labels:
           instance: 'NCKH-APP-Cloud'
@@ -417,10 +399,7 @@ scrape_configs:
           instance: 'HA-Server-54.179.20.40'
       - targets: ['54.251.13.109:9100']
         labels:
-          instance: 'ISofhcare-APP-01-54.251.13.109'
-      - targets: ['13.229.40.73:9100']
-        labels:
-          instance: 'ISofhcare-APP-02-13.229.40.73'
+          instance: 'ISofhcare-APP-54.251.13.109'
       - targets: ['18.140.108.175:9100']
         labels:
           instance: 'DB-Master-Old-18.140.108.175'
@@ -433,13 +412,6 @@ scrape_configs:
       - targets: ['54.254.163.179:9100']
         labels:
           instance: 'DB-Slave-02-54.254.163.179'
-
-  - job_name: "IRIS-PHARMACY"
-    scrape_interval: 5s
-    static_configs:
-      - targets: ['3.0.34.197:9100']
-        labels:
-          instance: 'IRIS-Pharmacy-AWS'
 
   - job_name: "ISOFH"
     scrape_interval: 5s
@@ -667,12 +639,6 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets: ['cadvisor:8080']
-      - targets: ['10.0.30.9:9092']
-        labels:
-          instance: 'BVP_HIS_10.0.30.9'
-      - targets: ['10.0.30.33:9092']
-        labels:
-          instance: 'BVP_HIS_10.0.30.33'
       - targets: ['192.168.100.105:9092']
         labels:
           instance: 'ThienAn_EMR_192.168.100.105'
@@ -733,12 +699,9 @@ scrape_configs:
       - targets: ['172.17.50.164:9099']
         labels:
           instance: 'DHY_HIS_03_172.17.50.164'
-      - targets: ['172.17.50.197:9099']
+      - targets: ['172.17.50.172:9099']
         labels:
-          instance: 'DHY_HIS_03_172.17.50.197'
-      - targets: ['172.17.50.182:9099']
-        labels:
-          instance: 'DHY_EMR_01_172.17.50.182'
+          instance: 'DHY_EMR_01_172.17.50.172'
       - targets: ['172.17.50.184:9099']
         labels:
           instance: 'DHY_EMR_02_172.17.50.184'

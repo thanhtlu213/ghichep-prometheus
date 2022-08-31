@@ -3,18 +3,27 @@ groups:
   rules:
   - alert: monitor_service_down
     expr: up == 0
-    for: 30s
+    for: 300s
     labels:
       severity: critical
     annotations:
       summary: "Monitor service non-operational"
-      description: "Service {{ $labels.instance }} is down."
+      description: "Server {{ $labels.instance }} is down."
 
 - name: host
   rules:
+  - alert: HostHighCpuLoad
+    expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[2m])) * 100) > 80
+    for: 0m
+    labels:
+      severity: warning
+    annotations:
+      Summary: Host high CPU load (instance {{ $labels.instance }})
+      Description: "CPU load is > 80%\n  VALUE = {{ $value }}\n  LABEL = {{ $labels.instance }}\n JOB {{ $labels.job }}"
+
   - alert: high_cpu_load
     expr: node_load1 > 1.5
-    for: 30s
+    for: 300s
     labels:
       severity: warning
     annotations:
@@ -23,7 +32,7 @@ groups:
 
   - alert: high_memory_load
     expr: (sum(node_memory_MemTotal_bytes) - sum(node_memory_MemFree_bytes + node_memory_Buffers_bytes + node_memory_Cached_bytes) ) / sum(node_memory_MemTotal_bytes) * 100 > 85
-    for: 30s
+    for: 300s
     labels:
       severity: warning
     annotations:
@@ -32,7 +41,7 @@ groups:
 
   - alert: high_storage_load
     expr: (node_filesystem_size_bytes{fstype="aufs"} - node_filesystem_free_bytes{fstype="aufs"}) / node_filesystem_size_bytes{fstype="aufs"}  * 100 > 85
-    for: 30s
+    for: 300s
     labels:
       severity: warning
     annotations:
