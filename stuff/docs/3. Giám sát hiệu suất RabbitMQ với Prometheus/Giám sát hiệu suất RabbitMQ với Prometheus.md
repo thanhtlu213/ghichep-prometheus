@@ -1,15 +1,5 @@
 # Giám sát hiệu suất RabbitMQ với Prometheus
 
-date: October 3, 2024
-slug: monitor-rabbitmq-with-prometheus
-author: Thành Nguyễn
-status: Public
-tags: Prometheus
-summary: Hướng dẫn chi tiết cách giám sát RabbitMQ bằng plugin Prometheus, giúp bạn tối ưu hóa hiệu suất và theo dõi tình trạng hoạt động của hệ thống.
-type: Post
-updatedAt: October 3, 2024 9:51 PM
-category: Monitor
-
 # 1. Giới thiệu
 
 RabbitMQ là một trong những hệ thống hàng đợi tin nhắn phổ biến nhất, giúp các ứng dụng giao tiếp một cách hiệu quả và đáng tin cậy. Để đảm bảo rằng RabbitMQ hoạt động ổn định và hiệu suất cao, việc giám sát là vô cùng quan trọng.

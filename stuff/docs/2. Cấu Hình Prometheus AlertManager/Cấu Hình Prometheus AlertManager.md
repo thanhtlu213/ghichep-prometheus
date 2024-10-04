@@ -1,15 +1,5 @@
 # Cấu Hình Prometheus AlertManager
 
-date: September 26, 2024
-slug: install-prometheus-alertmanager
-author: Thành Nguyễn
-status: Public
-tags: Prometheus
-summary: Tìm hiểu cách cài đặt và cấu hình AlertManager để xử lý các cảnh báo được gửi từ máy chủ Prometheus.
-type: Post
-updatedAt: October 3, 2024 2:16 PM
-category: Monitor
-
 # 1. Cài đặt **AlertManager**
 
 - Tạo `user` và `folder` cần thiết:
