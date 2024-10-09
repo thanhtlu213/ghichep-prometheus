@@ -1,15 +1,5 @@
 # Hướng dẫn triển khai Grafana và Prometheus bằng Docker
 
-date: October 5, 2024
-slug: install-grafana-prometheus-with-docker
-author: Thành Nguyễn
-status: Public
-tags: Prometheus
-summary: Thiết lập một môi trường giám sát nhanh chóng với Prometheus và Grafana qua Docker Compose
-type: Post
-updatedAt: October 5, 2024 10:45 PM
-category: Monitor
-
 # 1. Cài đặt **Docker và Docker Compose**
 
 - Cài đặt Docker bằng script:
@@ -56,6 +46,6 @@ e01e1fc12dbe   prom/pushgateway:v1.10.0    "/bin/pushgateway"       5 hours ago 
 17c8718c0b3e   prom/node-exporter:v1.8.2   "/bin/node_exporter …"   5 hours ago   Up 5 hours             0.0.0.0:9100->9100/tcp   nodeexporter
 ```
 
-- Truy cập Grafana với đường dẫn `http://<IP-server>:3000/`  với thông tin đăng nhập sau:
+- Truy cập Grafana với đường dẫn `http://<IP-server>:3000/` với thông tin đăng nhập sau:
     - User: **admin**
     - Password: **admin**
