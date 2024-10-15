@@ -1,14 +1,5 @@
 # Giám sát Nginx với Prometheus và Grafana
 
-date: October 8, 2024
-slug: monitor-nginx-with-prometheus
-author: Thành Nguyễn
-status: Public
-tags: Prometheus
-type: Post
-updatedAt: October 11, 2024 1:09 AM
-category: Monitor
-
 # 1. Giới thiệu
 
 - Nginx Prometheus Exporter là công cụ giúp thu thập các số liệu từ Nginx và xuất chúng dưới định dạng mà Prometheus có thể hiểu.
