@@ -19,6 +19,7 @@ alerting:
 rule_files:
   - "node-exporter.rules"
   - "prometheus-self-monitoring.rules"
+  - "nginx-exporter.rules"
 
 scrape_configs:
   - job_name: 'ZNS-API'

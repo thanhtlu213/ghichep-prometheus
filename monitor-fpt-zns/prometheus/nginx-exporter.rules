@@ -1,0 +1,23 @@
+groups:
+
+- name: NginxExporter
+
+  rules:
+
+    - alert: HighNginxHttpRequests
+      expr: '(irate(nginx_http_requests_total[1m]) > 0.5) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: High HTTP Requests on Nginx (instance {{ $labels.instance }})
+        description: "The Nginx instance {{ $labels.instance }} is receiving more than 1 HTTP request per second.\n  Current Rate = {{ $value }} requests/sec\n  Check the application for potential spikes in traffic."
+
+    - alert: NginxDown
+      expr: '(nginx_up == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: Nginx instance is down (instance {{ $labels.instance }})
+        description: "The Nginx instance {{ $labels.instance }} is currently down.\n  Nodename: {{ $labels.nodename }}\n  Check the Nginx service."
