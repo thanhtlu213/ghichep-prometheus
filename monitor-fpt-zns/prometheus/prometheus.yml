@@ -25,6 +25,12 @@ scrape_configs:
     scrape_interval: 10s
     static_configs:
       - targets: ['172.18.1.11:9100', '172.18.1.12:9100', '172.18.1.13:9100']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance      
 
   - job_name: 'ZNS-Worker'
     scrape_interval: 5s
