@@ -1,0 +1,29 @@
+# See https://github.com/prometheus/alertmanager/pull/2827
+# https://prometheus.io/docs/alerting/latest/configuration/#telegram_config
+global:
+  resolve_timeout: 5m
+
+route:
+  group_by: ['alertname']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 15m
+  receiver: 'telegram'
+
+receivers:
+  - name: 'telegram'
+    telegram_configs:
+      - api_url: https://api.telegram.org
+        bot_token: '5906684600:AAEzs4zor9U3kn3VHerjCHt_Sz5impVHyrY'
+        chat_id: -4545202326
+        message: '{{ template "telegram.thanhnv.message" . }}'
+
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']
+
+templates:
+- '/etc/alertmanager/templates/template.tmpl'
