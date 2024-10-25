@@ -1,5 +1,15 @@
 # Giám sát Nginx với Prometheus và Grafana
 
+date: October 8, 2024
+slug: monitor-nginx-with-prometheus
+author: Thành Nguyễn
+status: Public
+tags: Prometheus
+summary: Hướng dẫn cài đặt và cấu hình Nginx Prometheus Exporter trên hệ thống.
+type: Post
+updatedAt: October 25, 2024 1:27 AM
+category: Monitor
+
 # 1. Giới thiệu
 
 - Nginx Prometheus Exporter là công cụ giúp thu thập các số liệu từ Nginx và xuất chúng dưới định dạng mà Prometheus có thể hiểu.
@@ -11,7 +21,7 @@
 
 Chạy lệnh sau để tải xuống phiên bản 1.3.0 của Nginx Prometheus Exporter:
 
-```
+```jsx
 $ curl -L https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v1.3.0/nginx-prometheus-exporter_1.3.0_linux_amd64.tar.gz -o nginx-prometheus-exporter_1.3.0_linux_amd64.tar.gz
 ```
 
@@ -272,3 +282,147 @@ nginx_up{job="$job", instance=~"$host"}
 ### c. Kết quả
 
 ![image.png](image%2011.png)
+
+# 7. Thiết lập cảnh báo
+
+- Thiết lập 2 alert cơ bản cho Nginx:
+    - Alert khi có lượng HTTP request cao
+    - Alert khi Nginx không hoạt động.
+
+### a. HighNginxHttpRequests
+
+- **Mục đích**: Cảnh báo khi Nginx nhận được nhiều hơn 20 HTTP requests mỗi giây.
+- **Cấu hình**:
+
+```jsx
+- alert: HighNginxHttpRequests
+  expr: '(irate(nginx_http_requests_total[1m]) > 20) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+  for: 2m
+  labels:
+    severity: warning
+  annotations:
+    summary: High HTTP Requests on Nginx (instance {{ $labels.instance }})
+    description: "The Nginx instance {{ $labels.instance }} is receiving more than 1 HTTP request per second.\n  Current Rate = {{ $value }} requests/sec\n  Check the application for potential spikes in traffic."
+
+```
+
+- **Mô tả:**
+    
+    **`expr`**: Sử dụng hàm `irate` để tính toán tỷ lệ HTTP requests trong vòng 1 phút và so sánh với ngưỡng 20 requests/sec.
+    
+    **`for`**: Alert sẽ được kích hoạt nếu điều kiện xảy ra liên tục trong 2 phút.
+    
+    **`labels`**: Đánh dấu mức độ nghiêm trọng là "warning".
+    **`annotations`**: Cung cấp thông tin chi tiết về alert khi nó được kích hoạt.
+    
+
+### b. NginxDown
+
+- **Mục đích**: Cảnh báo khi Nginx không hoạt động.
+- **Cấu hình**:
+
+```jsx
+- alert: NginxDown
+  expr: '(nginx_up == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+  for: 0m
+  labels:
+    severity: critical
+  annotations:
+    summary: Nginx instance is down (instance {{ $labels.instance }})
+    description: "The Nginx instance {{ $labels.instance }} is currently down.\n  Nodename: {{ $labels.nodename }}\n  Check the Nginx service."
+```
+
+- **Mô tả:**
+    
+    **`expr`**: Kiểm tra trạng thái `nginx_up`, nếu giá trị bằng 0, điều đó có nghĩa là Nginx đang không hoạt động.
+    
+    **`for`**: Alert sẽ được kích hoạt ngay lập tức khi điều kiện này xảy ra.
+    
+    **`labels`**: Đánh dấu mức độ nghiêm trọng là "critical".
+    
+    **`annotations`**: Cung cấp thông tin chi tiết về trạng thái không hoạt động của Nginx.
+    
+
+### c. Tổng hợp
+
+- Tạo file `nginx-exporter.rules`:
+
+```jsx
+$ sudo vi /etc/prometheus/alert_rules/nginx-exporter.rules
+```
+
+```jsx
+groups:
+
+- name: NginxExporter
+
+  rules:
+
+    - alert: HighNginxHttpRequests
+      expr: '(irate(nginx_http_requests_total[1m]) > 20) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: High HTTP Requests on Nginx (instance {{ $labels.instance }})
+        description: "The Nginx instance {{ $labels.instance }} is receiving more than 1 HTTP request per second.\n  Current Rate = {{ $value }} requests/sec\n  Check the application for potential spikes in traffic."
+
+    - alert: NginxDown
+      expr: '(nginx_up == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      for: 0m
+      labels:
+        severity: critical
+      annotations:
+        summary: Nginx instance is down (instance {{ $labels.instance }})
+        description: "The Nginx instance {{ $labels.instance }} is currently down.\n  Nodename: {{ $labels.nodename }}\n  Check the Nginx service."
+
+```
+
+- Thêm cấu hình `rule_files` trong `prometheus.yml`:
+
+```jsx
+rule_files:
+  - "/etc/prometheus/alert_rules/nginx-exporter.rules"
+```
+
+- Khởi động lại service Prometheus:
+
+```jsx
+$ systemctl restart prometheus
+```
+
+- Nội dung thông báo về Telegram:
+
+```jsx
+🔥 Alerts Firing 🔥
+
+🪪 HighNginxHttpRequests
+📝 High HTTP Requests on Nginx (instance 172.18.1.11)
+📖 The Nginx instance 172.18.1.11 is receiving more than 1 HTTP request per second.
+  Current Rate = 20 requests/sec
+  Check the application for potential spikes in traffic.
+🏷 Labels:
+  alertname: HighNginxHttpRequests
+  instance: 172.18.1.11
+  job: Nginx-API
+  monitor: zns monitoring
+  nodename: prod-api01
+  severity: warning
+```
+
+```jsx
+🔥 Alerts Firing 🔥
+
+🪪 NginxDown
+📝 Nginx instance is down (instance 172.18.1.11)
+📖 The Nginx instance 172.18.1.11 is currently down.
+  Nodename: prod-api01
+  Check the Nginx service.
+🏷 Labels:
+  alertname: NginxDown
+  instance: 172.18.1.11
+  job: Nginx-API
+  monitor: zns monitoring
+  nodename: prod-api01
+  severity: critical
+```
