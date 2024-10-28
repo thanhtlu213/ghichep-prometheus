@@ -7,7 +7,7 @@ groups:
     ### CPU
     - alert: HostHighCpuLoad
       expr: '(sum by (instance) (avg by (mode, instance) (rate(node_cpu_seconds_total{mode!="idle"}[2m]))) > 0.8) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
-      for: 10m
+      for: 1m
       labels:
         severity: warning
       annotations:
