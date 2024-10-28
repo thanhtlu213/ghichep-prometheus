@@ -170,13 +170,3 @@ groups:
       annotations:
         summary: Host inodes will fill in 24 hours (instance {{ $labels.instance }})
         description: "Filesystem is predicted to run out of inodes within the next 24 hours at current write rate\n  VALUE = {{ $value }}"
-
-    ### Reboot
-    - alert: HostRequiresReboot
-      expr: '(node_reboot_required > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
-      for: 4h
-      labels:
-        severity: info
-      annotations:
-        summary: Host requires reboot (instance {{ $labels.instance }})
-        description: "{{ $labels.instance }} requires a reboot.\n  VALUE = {{ $value }}"
