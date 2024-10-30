@@ -5,7 +5,7 @@ groups:
   rules:
 
     ### CPU
-    - alert: HostHighCpuLoad
+    - alert: HostHighCpuLoad        # CPU load is > 80%
       expr: '(sum by (instance) (avg by (mode, instance) (rate(node_cpu_seconds_total{mode!="idle"}[2m]))) > 0.8) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 1m
       labels:
@@ -14,7 +14,7 @@ groups:
         summary: Host high CPU load (instance {{ $labels.instance }})
         description: "CPU load is > 80%\n  VALUE = {{ $value }}"
 
-    - alert: HostCpuHighIowait
+    - alert: HostCpuHighIowait        # CPU iowait > 10%. A high iowait means that you are disk or network bound.
       expr: '(avg by (instance) (rate(node_cpu_seconds_total{mode="iowait"}[5m])) * 100 > 10) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 0m
       labels:
@@ -24,7 +24,7 @@ groups:
         description: "CPU iowait > 10%. A high iowait means that you are disk or network bound.\n  VALUE = {{ $value }}"
 
     ### RAM
-    - alert: HostOutOfMemory
+    - alert: HostOutOfMemory        # Node memory is filling up (< 10% left)
       expr: '(node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
@@ -33,25 +33,7 @@ groups:
         summary: Host out of memory (instance {{ $labels.instance }})
         description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}"
 
-    - alert: HostMemoryUnderMemoryPressure
-      expr: '(rate(node_vmstat_pgmajfault[1m]) > 1000) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
-      for: 2m
-      labels:
-        severity: warning
-      annotations:
-        summary: Host memory under memory pressure (instance {{ $labels.instance }})
-        description: "The node is under heavy memory pressure. High rate of major page faults\n  VALUE = {{ $value }}"
-
-    - alert: HostMemoryIsUnderutilized
-      expr: '(100 - (avg_over_time(node_memory_MemAvailable_bytes[30m]) / node_memory_MemTotal_bytes * 100) < 20) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
-      for: 1w
-      labels:
-        severity: info
-      annotations:
-        summary: Host Memory is underutilized (instance {{ $labels.instance }})
-        description: "Node memory is < 20% for 1 week. Consider reducing memory space. (instance {{ $labels.instance }})\n  VALUE = {{ $value }}"
-
-    - alert: HostSwapIsFillingUp
+    - alert: HostSwapIsFillingUp        # Swap is filling up (>80%)
       expr: '((1 - (node_memory_SwapFree_bytes / node_memory_SwapTotal_bytes)) * 100 > 80) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
@@ -89,16 +71,25 @@ groups:
         description: "Host {{ $labels.instance }} interface {{ $labels.device }} has encountered {{ printf \"%.0f\" $value }} receive errors in the last two minutes.\n  VALUE = {{ $value }}"
 
     ### Disk
-    - alert: HostUnusualDiskIo
-      expr: '(rate(node_disk_io_time_seconds_total[1m]) > 0.5) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
-      for: 5m
+    - alert: HostOutOfDiskSpace        # Disk is almost full (< 15% left)
+      expr: '((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 15 and ON (instance, device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: Host out of disk space (instance {{ $labels.instance }})
+        description: "Disk is almost full (< 15% left)\n  VALUE = {{ $value }}"
+    
+    - alert: HostUnusualDiskIo        # Time spent in IO is too high
+      expr: '(rate(node_disk_io_time_seconds_total[1m]) * 100 > 70) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      for: 2m
       labels:
         severity: warning
       annotations:
         summary: Host unusual disk IO (instance {{ $labels.instance }})
-        description: "Time spent in IO is too high on {{ $labels.instance }}. Check storage for issues.\n  VALUE = {{ $value }}"
+        description: "Time spent in IO is too high (> 70%) on {{ $labels.instance }}. Check storage for issues.\n  VALUE = {{ $value }}"
 
-    - alert: HostUnusualDiskReadRate
+    - alert: HostUnusualDiskReadRate        # Disk is probably reading too much data (> 50 MB/s)
       expr: '(sum by (instance) (rate(node_disk_read_bytes_total[2m])) / 1024 / 1024 > 50) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 5m
       labels:
@@ -107,7 +98,7 @@ groups:
         summary: Host unusual disk read rate (instance {{ $labels.instance }})
         description: "Disk is probably reading too much data (> 50 MB/s)\n  VALUE = {{ $value }}"
 
-    - alert: HostUnusualDiskWriteRate
+    - alert: HostUnusualDiskWriteRate        # Disk is probably writing too much data (> 50 MB/s)
       expr: '(sum by (instance) (rate(node_disk_written_bytes_total[2m])) / 1024 / 1024 > 50) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
@@ -116,25 +107,7 @@ groups:
         summary: Host unusual disk write rate (instance {{ $labels.instance }})
         description: "Disk is probably writing too much data (> 50 MB/s)\n  VALUE = {{ $value }}"
 
-    - alert: HostOutOfDiskSpace
-      expr: '((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 15 and ON (instance, device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
-      for: 2m
-      labels:
-        severity: warning
-      annotations:
-        summary: Host out of disk space (instance {{ $labels.instance }})
-        description: "Disk is almost full (< 15% left)\n  VALUE = {{ $value }}"
-
-    - alert: HostDiskWillFillIn24Hours
-      expr: '((node_filesystem_avail_bytes * 100) / node_filesystem_size_bytes < 10 and ON (instance, device, mountpoint) predict_linear(node_filesystem_avail_bytes{fstype!~"tmpfs"}[1h], 24 * 3600) < 0 and ON (instance, device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
-      for: 2m
-      labels:
-        severity: warning
-      annotations:
-        summary: Host disk will fill in 24 hours (instance {{ $labels.instance }})
-        description: "Filesystem is predicted to run out of space within the next 24 hours at current write rate\n  VALUE = {{ $value }}"
-
-    - alert: HostUnusualDiskReadLatency
+    - alert: HostUnusualDiskReadLatency        # Disk latency is growing (read operations > 100ms)
       expr: '(rate(node_disk_read_time_seconds_total[1m]) / rate(node_disk_reads_completed_total[1m]) > 0.1 and rate(node_disk_reads_completed_total[1m]) > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
@@ -143,7 +116,7 @@ groups:
         summary: Host unusual disk read latency (instance {{ $labels.instance }})
         description: "Disk latency is growing (read operations > 100ms)\n  VALUE = {{ $value }}"
 
-    - alert: HostUnusualDiskWriteLatency
+    - alert: HostUnusualDiskWriteLatency        # Disk latency is growing (write operations > 100ms)
       expr: '(rate(node_disk_write_time_seconds_total[1m]) / rate(node_disk_writes_completed_total[1m]) > 0.1 and rate(node_disk_writes_completed_total[1m]) > 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
@@ -153,20 +126,11 @@ groups:
         description: "Disk latency is growing (write operations > 100ms)\n  VALUE = {{ $value }}"
 
     ### Filesystem
-    - alert: HostOutOfInodes
+    - alert: HostOutOfInodes        # Disk is almost running out of available inodes (< 10% left) 
       expr: '(node_filesystem_files_free{fstype!="msdosfs"} / node_filesystem_files{fstype!="msdosfs"} * 100 < 10 and ON (instance, device, mountpoint) node_filesystem_readonly == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
         severity: warning
       annotations:
         summary: Host out of inodes (instance {{ $labels.instance }})
-        description: "Disk is almost running out of available inodes (< 10% left)\n  VALUE = {{ $value }}"
-
-    - alert: HostInodesWillFillIn24Hours
-      expr: '(node_filesystem_files_free{fstype!="msdosfs"} / node_filesystem_files{fstype!="msdosfs"} * 100 < 10 and predict_linear(node_filesystem_files_free{fstype!="msdosfs"}[1h], 24 * 3600) < 0 and ON (instance, device, mountpoint) node_filesystem_readonly{fstype!="msdosfs"} == 0) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
-      for: 2m
-      labels:
-        severity: warning
-      annotations:
-        summary: Host inodes will fill in 24 hours (instance {{ $labels.instance }})
-        description: "Filesystem is predicted to run out of inodes within the next 24 hours at current write rate\n  VALUE = {{ $value }}"
+        description: "Disk on {{ $labels.device }} mounted at {{ $labels.mountpoint }} is almost running out of available inodes (< 10% left)\n  VALUE = {{ $value }}"
