@@ -31,7 +31,7 @@ scrape_configs:
       separator: ':'
       regex: '(.*):(.*)'
       replacement: '${1}'
-      target_label: instance      
+      target_label: instance
 
   - job_name: 'ZNS-Worker'
     scrape_interval: 5s
@@ -42,7 +42,7 @@ scrape_configs:
       separator: ':'
       regex: '(.*):(.*)'
       replacement: '${1}'
-      target_label: instance       
+      target_label: instance
 
   - job_name: 'ZNS-DLR'
     scrape_interval: 10s
@@ -54,7 +54,7 @@ scrape_configs:
       separator: ':'
       regex: '(.*):(.*)'
       replacement: '${1}'
-      target_label: instance       
+      target_label: instance
 
   - job_name: 'ZNS-Queue'
     scrape_interval: 10s
@@ -65,7 +65,7 @@ scrape_configs:
       separator: ':'
       regex: '(.*):(.*)'
       replacement: '${1}'
-      target_label: instance       
+      target_label: instance
 
   - job_name: 'ZNS-Database'
     scrape_interval: 5s
@@ -76,7 +76,7 @@ scrape_configs:
       separator: ':'
       regex: '(.*):(.*)'
       replacement: '${1}'
-      target_label: instance       
+      target_label: instance
 
   - job_name: 'ZNS-Jobs'
     scrape_interval: 5s
@@ -87,7 +87,7 @@ scrape_configs:
       separator: ':'
       regex: '(.*):(.*)'
       replacement: '${1}'
-      target_label: instance    
+      target_label: instance
 
   - job_name: 'Nginx-API'
     scrape_interval: 10s
