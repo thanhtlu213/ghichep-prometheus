@@ -1,15 +1,5 @@
 # Giám sát hiệu suất server với Node Exporter
 
-date: October 30, 2024
-slug: monitoring-server-performance-node-exporter
-author: Thành Nguyễn
-status: Public
-tags: Prometheus
-summary: Hướng dẫn cách cài đặt và cấu hình Node Exporter để giám sát hiệu suất server, giúp bạn theo dõi các thông số quan trọng như CPU, RAM, Disk,…
-type: Post
-updatedAt: November 14, 2024 4:42 PM
-category: Monitor
-
 # 1. Giới thiệu
 
 - Việc giám sát hiệu suất server là cực kỳ quan trọng để đảm bảo hệ thống hoạt động ổn định và hiệu quả.
