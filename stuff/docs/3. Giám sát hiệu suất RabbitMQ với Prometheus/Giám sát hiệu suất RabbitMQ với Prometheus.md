@@ -214,4 +214,4 @@ Sau khi nhấn **Load**, bạn sẽ thấy một màn hình cho phép bạn cấ
 
 - Bạn có thể sử dụng Dashboard mà tôi đã tùy chỉnh ở đây:
     
-    [RabbitMQ-Overview-Custom.json](https://gist.github.com/thanhtlu213/5061664b6086d6fce9d4cfdc87d770b1)
+    [RabbitMQ-Overview-Custom.json](https://gist.github.com/thanhtlu213/0efa97c5f00862530c0e03d957579f64)
