@@ -50,7 +50,6 @@ services:
   nodeexporter:
     image: prom/node-exporter:v1.8.2
     container_name: nodeexporter
-    hostname: ftizns-prod-jobs          # hostname for node exporter
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -73,14 +72,11 @@ services:
     container_name: grafana
     volumes:
       - grafana_data:/var/lib/grafana
-      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
-      - ./grafana/ssl:/etc/grafana/ssl
       - ./grafana/provisioning:/etc/grafana/provisioning
     environment:
       - GF_SECURITY_ADMIN_USER=${ADMIN_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - GF_USERS_ALLOW_SIGN_UP=false
-      - GF_INSTALL_PLUGINS=volkovlabs-table-panel        
     restart: unless-stopped
     ports:
       - "3000:3000"
