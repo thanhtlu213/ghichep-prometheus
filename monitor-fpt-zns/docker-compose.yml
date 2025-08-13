@@ -50,7 +50,7 @@ services:
   nodeexporter:
     image: prom/node-exporter:v1.8.2
     container_name: nodeexporter
-    hostname: ftizns-prod-jobs          # hostname for node exporter
+    hostname: zns-smpp-02                       # hostname for node exporter
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -100,3 +100,17 @@ services:
     labels:
       org.label-schema.group: "monitoring"
 
+  blackbox:
+    image: prom/blackbox-exporter:v0.24.0
+    container_name: blackbox-exporter
+    restart: unless-stopped
+    ports:
+      - "9115:9115"
+    command:
+      - '--config.file=/etc/blackbox/blackbox.yml'
+    volumes:
+      - ./blackbox/blackbox.yml:/etc/blackbox/blackbox.yml        
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"        
