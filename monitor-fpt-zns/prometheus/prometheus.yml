@@ -25,30 +25,7 @@ scrape_configs:
   - job_name: 'ZNS-API'
     scrape_interval: 10s
     static_configs:
-      - targets: ['172.18.1.11:9100', '172.18.1.12:9100', '172.18.1.13:9100']
-    relabel_configs:
-    - source_labels: [__address__]
-      separator: ':'
-      regex: '(.*):(.*)'
-      replacement: '${1}'
-      target_label: instance        
-
-  - job_name: 'ZNS-Worker'
-    scrape_interval: 5s
-    static_configs:
-      - targets: ['172.18.1.31:9100', '172.18.1.32:9100', '172.18.1.33:9100']
-    relabel_configs:
-    - source_labels: [__address__]
-      separator: ':'
-      regex: '(.*):(.*)'
-      replacement: '${1}'
-      target_label: instance       
-
-  - job_name: 'ZNS-DLR'
-    scrape_interval: 10s
-    honor_labels: true
-    static_configs:
-      - targets: ['172.18.1.41:9100', '172.18.1.42:9100', '172.18.1.43:9100']
+      - targets: ['10.92.6.1:9100', '10.92.6.2:9100', '10.92.6.3:9100', '10.92.6.4:9100', '10.92.6.5:9100']
     relabel_configs:
     - source_labels: [__address__]
       separator: ':'
@@ -56,10 +33,44 @@ scrape_configs:
       replacement: '${1}'
       target_label: instance
 
-  - job_name: 'ZNS-Queue'
+  - job_name: 'ZNS-Worker'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.92.10.101:9100', '10.92.10.102:9100', '10.92.10.103:9100', '10.92.10.104:9100', '10.92.10.105:9100']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance
+
+  - job_name: 'ZNS-DLR'
+    scrape_interval: 10s
+    honor_labels: true
+    static_configs:
+      - targets: ['10.92.6.21:9100', '10.92.6.22:9100', '10.92.6.23:9100', '10.92.6.24:9100']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance
+
+  - job_name: 'ZNS-RabbitMQ'
     scrape_interval: 10s
     static_configs:
-      - targets: ['172.18.1.51:9100', '172.18.1.52:9100', '172.18.1.53:9100']
+      - targets: ['10.92.6.31:9100', '10.92.6.32:9100', '10.92.6.33:9100']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance
+
+  - job_name: 'ZNS-Redis'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['10.92.10.31:9100', '10.92.10.32:9100', '10.92.10.33:9100']
     relabel_configs:
     - source_labels: [__address__]
       separator: ':'
@@ -70,7 +81,51 @@ scrape_configs:
   - job_name: 'ZNS-Database'
     scrape_interval: 5s
     static_configs:
-      - targets: ['172.18.1.1:9100', '172.18.1.2:9100', '172.18.1.3:9100']
+      - targets: ['10.92.10.1:9100', '10.92.10.2:9100', '10.92.10.3:9100']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance
+
+  - job_name: 'ZNS-ISC'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.92.6.28:9100', '10.92.6.29:9100']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance
+
+  - job_name: 'ZNS-SMPP'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.92.6.112:9100']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance
+
+  - job_name: 'ZNS-HA-INT'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.92.10.28:9100', '10.92.10.29:9100']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance
+
+  - job_name: 'ZNS-HA-EXT'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.92.6.8:9100', '10.92.6.9:9100']
     relabel_configs:
     - source_labels: [__address__]
       separator: ':'
@@ -81,7 +136,7 @@ scrape_configs:
   - job_name: 'ZNS-Portal'
     scrape_interval: 5s
     static_configs:
-      - targets: ['172.18.1.21:9100', '172.18.1.22:9100']
+      - targets: ['10.92.6.101:9100', '10.92.6.102:9100']
     relabel_configs:
     - source_labels: [__address__]
       separator: ':'
@@ -92,7 +147,7 @@ scrape_configs:
   - job_name: 'ZNS-Jobs'
     scrape_interval: 5s
     static_configs:
-      - targets: ['172.18.1.100:9100']
+      - targets: ['10.92.10.100:9100']
     relabel_configs:
     - source_labels: [__address__]
       separator: ':'
@@ -103,7 +158,7 @@ scrape_configs:
   - job_name: 'Nginx-API'
     scrape_interval: 10s
     static_configs:
-      - targets: ['172.18.1.11:9113','172.18.1.12:9113','172.18.1.13:9113']
+      - targets: ['10.92.6.1:9113', '10.92.6.2:9113', '10.92.6.3:9113', '10.92.6.4:9113', '10.92.6.5:9113']
     relabel_configs:
     - source_labels: [__address__]
       separator: ':'
@@ -114,7 +169,7 @@ scrape_configs:
   - job_name: 'Nginx-DLR'
     scrape_interval: 10s
     static_configs:
-      - targets: ['172.18.1.41:9113','172.18.1.42:9113','172.18.1.43:9113']
+      - targets: ['10.92.6.21:9113', '10.92.6.22:9113', '10.92.6.23:9113', '10.92.6.24:9113']
     relabel_configs:
     - source_labels: [__address__]
       separator: ':'
@@ -125,7 +180,37 @@ scrape_configs:
   - job_name: 'Nginx-Portal'
     scrape_interval: 10s
     static_configs:
-      - targets: ['172.18.1.21:9113','172.18.1.22:9113']
+      - targets: ['10.92.6.101:9113','10.92.6.102:9113']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance
+
+  - job_name: 'RabbitMQ-01'
+    static_configs:
+      - targets: ['10.92.6.31:15692']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance
+
+  - job_name: 'RabbitMQ-02'
+    static_configs:
+      - targets: ['10.92.6.32:15692']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance
+
+  - job_name: 'RabbitMQ-03'
+    static_configs:
+      - targets: ['10.92.6.33:15692']
     relabel_configs:
     - source_labels: [__address__]
       separator: ':'
