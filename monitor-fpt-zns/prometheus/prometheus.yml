@@ -217,3 +217,14 @@ scrape_configs:
       regex: '(.*):(.*)'
       replacement: '${1}'
       target_label: instance
+
+  - job_name: 'Mysql-DB'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['10.92.10.1:9104','10.92.10.2:9104','10.92.10.3:9104']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance
