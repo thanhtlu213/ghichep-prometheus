@@ -120,7 +120,7 @@ scrape_configs:
       separator: ':'
       regex: '(.*):(.*)'
       replacement: '${1}'
-      target_label: instance
+      target_label: instance      
 
   - job_name: 'ZNS-HA-EXT'
     scrape_interval: 5s
@@ -131,7 +131,7 @@ scrape_configs:
       separator: ':'
       regex: '(.*):(.*)'
       replacement: '${1}'
-      target_label: instance
+      target_label: instance   
 
   - job_name: 'ZNS-Portal'
     scrape_interval: 5s
@@ -228,3 +228,30 @@ scrape_configs:
       regex: '(.*):(.*)'
       replacement: '${1}'
       target_label: instance
+
+  - job_name: 'checkpoint-prod'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    metrics_path: /snmp
+    params:
+      module: [if_mib]
+      auth: [public_v2]
+    static_configs:
+      - targets: ['10.92.6.252']
+        labels:
+          display: 'ZNS-CP-SMS-Standby_10.92.6.252'        
+      - targets: ['10.92.6.253']
+        labels:
+          display: 'ZNS-CP-GW-1_10.92.6.253'
+      - targets: ['10.151.90.235']
+        labels:
+          display: 'ZNS-CP-SMS_10.151.90.235'     
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [display]
+        target_label: instance
+      - source_labels: [__param_target]
+        target_label: snmp_target          
+      - target_label: __address__
+        replacement: 10.92.6.112:9116
