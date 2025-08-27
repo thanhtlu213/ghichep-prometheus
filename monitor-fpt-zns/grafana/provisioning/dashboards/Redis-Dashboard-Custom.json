@@ -1,8 +1,8 @@
 {
   "__inputs": [
     {
-      "name": "DS_REDIS02_172.18.1.52",
-      "label": "Redis02_172.18.1.52",
+      "name": "DS_REDIS01_10.92.10.31",
+      "label": "Redis01_10.92.10.31",
       "description": "",
       "type": "datasource",
       "pluginId": "redis-datasource",
@@ -33,7 +33,7 @@
       "type": "datasource",
       "id": "redis-datasource",
       "name": "Redis",
-      "version": "2.2.0"
+      "version": "2.1.1"
     },
     {
       "type": "panel",
@@ -182,7 +182,7 @@
           "command": "info",
           "datasource": {
             "type": "redis-datasource",
-            "uid": "${DS_REDIS02_172.18.1.52}"
+            "uid": "${DS_REDIS01_10.92.10.31}"
           },
           "query": "",
           "refId": "A",
@@ -255,7 +255,7 @@
           "command": "info",
           "datasource": {
             "type": "redis-datasource",
-            "uid": "${DS_REDIS02_172.18.1.52}"
+            "uid": "${DS_REDIS01_10.92.10.31}"
           },
           "query": "",
           "refId": "A",
@@ -485,7 +485,7 @@
           "command": "info",
           "datasource": {
             "type": "redis-datasource",
-            "uid": "${DS_REDIS02_172.18.1.52}"
+            "uid": "${DS_REDIS01_10.92.10.31}"
           },
           "query": "",
           "refId": "A",
@@ -584,7 +584,7 @@
           "command": "info",
           "datasource": {
             "type": "redis-datasource",
-            "uid": "${DS_REDIS02_172.18.1.52}"
+            "uid": "${DS_REDIS01_10.92.10.31}"
           },
           "query": "",
           "refId": "A",
@@ -659,7 +659,7 @@
           "command": "info",
           "datasource": {
             "type": "redis-datasource",
-            "uid": "${DS_REDIS02_172.18.1.52}"
+            "uid": "${DS_REDIS01_10.92.10.31}"
           },
           "query": "",
           "refId": "A",
@@ -803,7 +803,7 @@
         {
           "datasource": {
             "type": "redis-datasource",
-            "uid": "${DS_REDIS02_172.18.1.52}"
+            "uid": "${DS_REDIS01_10.92.10.31}"
           },
           "query": "dbsize",
           "refId": "A",
@@ -1197,7 +1197,7 @@
           "command": "clientList",
           "datasource": {
             "type": "redis-datasource",
-            "uid": "${DS_REDIS02_172.18.1.52}"
+            "uid": "${DS_REDIS01_10.92.10.31}"
           },
           "query": "",
           "refId": "A",
@@ -1371,7 +1371,7 @@
           "command": "info",
           "datasource": {
             "type": "redis-datasource",
-            "uid": "${DS_REDIS02_172.18.1.52}"
+            "uid": "${DS_REDIS01_10.92.10.31}"
           },
           "query": "",
           "refId": "A",
@@ -1503,7 +1503,7 @@
           "command": "slowlogGet",
           "datasource": {
             "type": "redis-datasource",
-            "uid": "${DS_REDIS02_172.18.1.52}"
+            "uid": "${DS_REDIS01_10.92.10.31}"
           },
           "query": "",
           "refId": "A",
@@ -1604,7 +1604,7 @@
   },
   "timezone": "",
   "title": "Redis",
-  "uid": "RpSjVqWMz",
+  "uid": "RpSjVqWMz1",
   "version": 2,
   "weekStart": ""
 }
