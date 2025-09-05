@@ -21,6 +21,7 @@ rule_files:
   - "prometheus-self-monitoring.rules"
   - "nginx-exporter.rules"
   - "rabbitmq_alerts.rules"
+  - "mysql-exporter.rules"
 
 scrape_configs:
   - job_name: 'ZNS-API'

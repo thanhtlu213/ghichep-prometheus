@@ -1,0 +1,13 @@
+groups:
+- name: SNMPExporter
+  rules:
+  - alert: SNMPTargetDown
+    expr: up{job=~"checkpoint-prod"} == 0
+    for: 2m
+    labels:
+      severity: critical
+      environment: production
+    annotations:
+      summary: "SNMP target DOWN: {{ $labels.instance }}"
+      description: "Exporter không scrape được {{ $labels.snmp_target | default $labels.instance }} (job={{ $labels.job }})."
+
