@@ -114,3 +114,36 @@ services:
       - monitor-net
     labels:
       org.label-schema.group: "monitoring"        
+
+  snmp-exporter:
+    image: prom/snmp-exporter:latest
+    container_name: snmp-exporter
+    restart: unless-stopped
+    ports:
+      - "9116:9116"
+    command:
+      - '--config.file=/etc/snmp_exporter/snmp.yml'
+    volumes:
+      - ./snmp/snmp.yml:/etc/snmp_exporter/snmp.yml:ro
+    networks:
+      - monitor-net
+    labels:
+      org.label-schema.group: "monitoring"        
+
+  redis-exporter:
+    image: oliver006/redis_exporter:v1.62.0
+    container_name: redis-exporter
+    restart: unless-stopped
+    ports:
+      - "9121:9121"
+    command:
+      - '--web.listen-address=0.0.0.0:9121'
+      - '--redis.user=default'
+      - '--redis.password=123456aA@'        
+      - '--redis.addr=redis://10.92.10.31:6379'
+      - '--redis.addr=redis://10.92.10.32:6379'
+      - '--redis.addr=redis://10.92.10.33:6379'
+    networks:                                                                                                                                                                                                                       
+      - monitor-net        
+    labels:
+      org.label-schema.group: "monitoring"
