@@ -22,6 +22,7 @@ rule_files:
   - "nginx-exporter.rules"
   - "rabbitmq_alerts.rules"
   - "mysql-exporter.rules"
+  - "blackbox-exporter.rules"
 
 scrape_configs:
   - job_name: 'ZNS-API'
@@ -272,3 +273,40 @@ scrape_configs:
         replacement: redis-exporter:9121
       - source_labels: [__param_target]
         target_label: instance          
+
+#####----------Blackbox----------#####
+  - job_name: 'http-fpt'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        #- https://fns.fpt.work/admin/auth/login
+        - https://inside-fns.fpt.work/admin
+        - https://api-fns.fpt.work
+        - https://dlrzns.fpt.work          
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - target_label: __address__
+        replacement: blackbox:9115
+      - source_labels: [__param_target]
+        target_label: instance
+
+  - job_name: 'tls-fpt'
+    metrics_path: /probe
+    params:
+      module: [ssl_cert]
+    static_configs:
+      - targets:
+        - https://fns.fpt.work
+        - https://inside-fns.fpt.work
+        - https://api-fns.fpt.work
+        - https://dlrzns.fpt.work
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - target_label: __address__
+        replacement: blackbox:9115
+      - source_labels: [__param_target]
+        target_label: instance
