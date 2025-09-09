@@ -1,0 +1,42 @@
+groups:
+- name: Maxscale-Exporter
+  rules:
+  - alert: MaxScaleExporterDown
+    expr: maxscale_exporter_success == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:   
+      summary: "MaxScale exporter down ({{ $labels.instance }})"
+      description: "MaxScale exporter is DOWN for at least 1 minutes.\n  VALUE = {{ $value }}"       
+
+  - alert: MaxScaleServerDown
+    expr: maxscale_server_up == 0
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: "MaxScale backend DOWN: {{ $labels.server }} ({{ $labels.address }}) on {{ $labels.instance }}"
+      description: "Backend is DOWN as reported by MaxScale.\n  VALUE = {{ $value }}"
+
+  - alert: MaxScaleMasterGained
+    expr: (maxscale_server_up{state=~"Master.*"} == 1)
+          unless on (instance, server)
+          (maxscale_server_up{state=~"Master.*"} offset 1m == 1)
+    for: 0m
+    labels:
+      severity: info
+    annotations:
+      summary: "New Master: {{ $labels.server }} ({{ $labels.address }}) on {{ $labels.instance }}"
+      description: "This server became Master in the last 1 minutes."
+
+  - alert: MaxScaleMasterLost
+    expr: (maxscale_server_up{state=~"Master.*"} offset 1m == 1)
+          unless on (instance, server)
+          (maxscale_server_up{state=~"Master.*"} == 1)
+    for: 0m
+    labels:
+      severity: info
+    annotations:
+      summary: "Master lost: {{ $labels.server }} ({{ $labels.address }}) on {{ $labels.instance }}"
+      description: "This server lost the Master role in the last 1 minutes."
