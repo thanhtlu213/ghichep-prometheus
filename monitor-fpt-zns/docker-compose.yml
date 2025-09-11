@@ -139,11 +139,11 @@ services:
     command:
       - '--web.listen-address=0.0.0.0:9121'
       - '--redis.user=default'
-      - '--redis.password=123456aA@'        
-      - '--redis.addr=redis://10.92.10.31:6379'
-      - '--redis.addr=redis://10.92.10.32:6379'
-      - '--redis.addr=redis://10.92.10.33:6379'
-    networks:                                                                                                                                                                                                                       
-      - monitor-net        
+      - '--redis.password=Zns123456aA@'
+      - '--include-system-metrics'
+      - '--log-format=txt' 
+    networks:
+      - monitor-net
     labels:
-      org.label-schema.group: "monitoring"
+      org.label-schema.group: "monitoring"        
+
