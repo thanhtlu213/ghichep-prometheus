@@ -1,0 +1,16 @@
+groups:
+
+- name: RedisExporter
+
+  rules:
+
+    - alert: RedisInstanceDown
+      expr: redis_up == 0
+      for: 0m
+      labels:
+        severity: critical
+        type: redis
+        environment: production
+      annotations:
+        summary: "Redis instance {{ $labels.instance }} is down"
+        description: "The Redis exporter cannot reach Redis at {{ $labels.instance }}.\n Check if the Redis service is running and reachable from the exporter.\n  VALUE = {{ $value }}"

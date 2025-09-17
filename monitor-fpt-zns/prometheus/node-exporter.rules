@@ -24,14 +24,14 @@ groups:
         description: "CPU iowait > 10%. A high iowait means that you are disk or network bound.\n  VALUE = {{ $value }}"
 
     ### RAM
-    - alert: HostOutOfMemory        # Node memory is filling up (< 10% left)
-      expr: '(node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 10) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+    - alert: HostOutOfMemory        # Node memory is filling up (< 5% left)
+      expr: '(node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 5) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
         severity: warning
       annotations:
         summary: Host out of memory (instance {{ $labels.instance }})
-        description: "Node memory is filling up (< 10% left)\n  VALUE = {{ $value }}"
+        description: "Node memory is filling up (< 5% left)\n  VALUE = {{ $value }}"
 
     - alert: HostSwapIsFillingUp        # Swap is filling up (>80%)
       expr: '((1 - (node_memory_SwapFree_bytes / node_memory_SwapTotal_bytes)) * 100 > 80) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
@@ -81,13 +81,13 @@ groups:
         description: "Disk is almost full (< 15% left)\n  VALUE = {{ $value }}"
     
     - alert: HostUnusualDiskIo        # Time spent in IO is too high
-      expr: '(rate(node_disk_io_time_seconds_total[1m]) * 100 > 70) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      expr: '(rate(node_disk_io_time_seconds_total{device=~"sd[a-z]+"}[1m]) * 100 > 80) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 2m
       labels:
         severity: warning
       annotations:
         summary: Host unusual disk IO (instance {{ $labels.instance }})
-        description: "Time spent in IO is too high (> 70%) on {{ $labels.instance }}. Check storage for issues.\n  VALUE = {{ $value }}"
+        description: "Time spent in IO is too high (> 80%) on {{ $labels.instance }}. Check storage for issues.\n  VALUE = {{ $value }}"
 
     - alert: HostUnusualDiskReadRate        # Disk is probably reading too much data (> 50 MB/s)
       expr: '(sum by (instance) (rate(node_disk_read_bytes_total[2m])) / 1024 / 1024 > 50) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'

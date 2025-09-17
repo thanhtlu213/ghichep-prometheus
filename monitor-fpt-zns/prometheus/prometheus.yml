@@ -24,6 +24,7 @@ rule_files:
   - "mysql-exporter.rules"
   - "blackbox-exporter.rules"
   - "maxscale-exporter.rules"
+  - "redis-exporter.rules"
 
 scrape_configs:
   - job_name: 'ZNS-API'
