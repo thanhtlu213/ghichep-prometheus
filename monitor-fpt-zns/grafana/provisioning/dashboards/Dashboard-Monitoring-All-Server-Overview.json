@@ -27,12 +27,13 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 22001,
   "graphTooltip": 0,
-  "id": 36,
+  "id": 10,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
+        "default": true,
         "type": "prometheus",
         "uid": "PBFA97CFB590B2093"
       },
@@ -649,7 +650,8 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "node_uname_info{job=~\"$job\"} - 0",
+          "editorMode": "code",
+          "expr": "sum by(instance, job, nodename) (node_uname_info{job=~\"$job\"})",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -664,7 +666,7 @@
           },
           "expr": "sum(time() - node_boot_time_seconds{job=~\"$job\"})by(instance)",
           "format": "table",
-          "hide": false,
+          "hide": true,
           "instant": true,
           "interval": "",
           "legendFormat": "running time",
@@ -703,6 +705,7 @@
           },
           "expr": "node_load5{job=~\"$job\"}",
           "format": "table",
+          "hide": true,
           "instant": true,
           "interval": "",
           "legendFormat": "5 minutes load",

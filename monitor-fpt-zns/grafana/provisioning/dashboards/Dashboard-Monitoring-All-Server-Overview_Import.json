@@ -686,7 +686,8 @@
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
           },
-          "expr": "node_uname_info{job=~\"$job\"} - 0",
+          "editorMode": "code",
+          "expr": "sum by(instance, job, nodename) (node_uname_info{job=~\"$job\"})",
           "format": "table",
           "hide": false,
           "instant": true,
@@ -701,7 +702,7 @@
           },
           "expr": "sum(time() - node_boot_time_seconds{job=~\"$job\"})by(instance)",
           "format": "table",
-          "hide": false,
+          "hide": true,
           "instant": true,
           "interval": "",
           "legendFormat": "running time",
@@ -740,6 +741,7 @@
           },
           "expr": "node_load5{job=~\"$job\"}",
           "format": "table",
+          "hide": true,
           "instant": true,
           "interval": "",
           "legendFormat": "5 minutes load",
@@ -1812,7 +1814,7 @@
         "definition": "label_values(node_uname_info{project=~\"$project\"}, job)",
         "hide": 0,
         "includeAll": true,
-        "label": "IP",
+        "label": "job",
         "multi": true,
         "name": "job",
         "options": [],
@@ -1858,9 +1860,9 @@
       "30d"
     ]
   },
-  "timezone": "browser",
+  "timezone": "Asia/Ho_Chi_Minh",
   "title": "Dashboard Monitoring All Server Overview",
-  "uid": "be9af7ad-556b-4f67-89f1-48efc70ebac7",
-  "version": 1,
+  "uid": "be9af7ad-556b-4f67-89f1-48efc70ebac7-v1",
+  "version": 4,
   "weekStart": ""
 }
