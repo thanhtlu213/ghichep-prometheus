@@ -136,7 +136,7 @@ scrape_configs:
       separator: ':'
       regex: '(.*):(.*)'
       replacement: '${1}'
-      target_label: instance   
+      target_label: instance
 
   - job_name: 'ZNS-Portal'
     scrape_interval: 5s
@@ -342,3 +342,4 @@ scrape_configs:
       regex: '(.*):(.*)'
       replacement: '${1}'
       target_label: instance
+
