@@ -9,3 +9,4 @@
 - RabbitMQ-Overview-Custom.json
 - Redis-Overview-Custom.json
 - Server-Performance-Monitor-Node-Exporter.json
+- HAProxy-Overview.json
