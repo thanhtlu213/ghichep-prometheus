@@ -8,5 +8,5 @@
 - [Nginx-Dashboard-Custom.json](./grafana/provisioning/dashboards/Nginx-Dashboard-Custom.json)
 - [HAProxy-Overview-Custom.json](./grafana/provisioning/dashboards/HAProxy-Overview-Custom.json)
 - [RabbitMQ-Overview-Custom.json](./grafana/provisioning/dashboards/RabbitMQ-Overview-Custom.json)
-- [Redis-Overview-Custom.json](./grafana/provisioning/dashboards/Redis-Overview-Custom.json)
+- [Redis-Overview-Custom.json](./grafana/provisioning/dashboards/Redis-Dashboard-Custom.json)
 - [MySQL-Overview-Custom.json](./grafana/provisioning/dashboards/MySQL-Overview-Custom.json)
