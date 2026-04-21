@@ -1623,7 +1623,7 @@
   "timepicker": {},
   "timezone": "browser",
   "title": "HAProxy Overview",
-  "uid": "haproxy-exporter-overview",
+  "uid": "haproxy-overview",
   "version": 3,
   "weekStart": ""
 }
