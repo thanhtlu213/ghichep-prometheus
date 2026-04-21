@@ -23733,7 +23733,8 @@
   "revision": 1,
   "schemaVersion": 39,
   "tags": [
-    "linux"
+    "linux",
+    "prometheus"
   ],
   "templating": {
     "list": [
