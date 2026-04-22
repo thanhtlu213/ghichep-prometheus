@@ -171,6 +171,17 @@ scrape_configs:
       replacement: '${1}'
       target_label: instance
 
+  - job_name: 'Nginx-WORKER'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['10.92.10.101:9113', '10.92.10.102:9113', '10.92.10.103:9113', '10.92.10.104:9113', '10.92.10.105:9113']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance
+
   - job_name: 'Nginx-DLR'
     scrape_interval: 10s
     static_configs:
@@ -343,3 +354,36 @@ scrape_configs:
       replacement: '${1}'
       target_label: instance
 
+#####----------HAProxy----------#####
+  - job_name: 'HAProxy-API'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['10.92.6.8:9101','10.92.6.9:9101']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance
+
+  - job_name: 'HAProxy-RabbitMQ'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['10.92.6.28:9101','10.92.6.29:9101']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance 
+
+  - job_name: 'HAProxy-Redis'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['10.92.10.28:9101','10.92.10.29:9101']
+    relabel_configs:
+    - source_labels: [__address__]
+      separator: ':'
+      regex: '(.*):(.*)'
+      replacement: '${1}'
+      target_label: instance
