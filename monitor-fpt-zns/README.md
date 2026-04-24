@@ -66,3 +66,20 @@ Nếu UID datasource trên Grafana không khớp, dashboard có thể bị lỗi
 - Datasource not found  
 - No data  
 - Panel không hiển thị dữ liệu  
+
+---
+
+## Khuyến nghị
+
+Không nên sử dụng UID random do Grafana tự sinh, ví dụ:
+
+```json
+"uid": "PBFA97CFB590B2093"
+```
+
+Nên chuẩn hóa UID datasource trong file provisioning:
+
+```yaml
+uid: prometheus
+uid: zabbix-datasource
+```
