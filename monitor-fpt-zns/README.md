@@ -83,3 +83,55 @@ Nên chuẩn hóa UID datasource trong file provisioning:
 uid: prometheus
 uid: zabbix-datasource
 ```
+
+---------------------------------------------------------------------------
+<details>
+<summary><b>Chuẩn hóa datasource cho provisioning</b></summary>
+
+<br>
+
+Để sử dụng dashboard với Grafana provisioning, cần thực hiện:
+
+### 1. Xóa phần input (nếu có)
+
+```json
+"__inputs": [...]
+"__requires": [...]
+```
+
+---
+
+### 2. Cập nhật datasource về UID cố định
+
+Thay tất cả datasource trong dashboard JSON thành:
+
+```json
+"datasource": {
+  "type": "prometheus",
+  "uid": "prometheus"
+}
+```
+
+---
+
+## Lưu ý
+
+- Không sử dụng UID auto (ví dụ: `PBFA97CFB590B2093`)
+- Không dùng `${DS_XXX}` hoặc `${datasource}` nếu không cần thiết
+- UID phải khớp với datasource provisioning:
+
+```yaml
+datasources:
+  - name: Prometheus
+    uid: prometheus
+```
+
+---
+
+## Kết quả
+
+- Dashboard hoạt động ổn định trên mọi môi trường
+- Không phụ thuộc vào Grafana generate UID
+- Phù hợp cho deploy bằng Docker / provisioning
+
+</details>
