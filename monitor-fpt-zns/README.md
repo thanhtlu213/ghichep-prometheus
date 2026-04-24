@@ -18,3 +18,51 @@ Các dashboard dưới đây được sử dụng theo cơ chế **Grafana provi
 - [RabbitMQ-Overview-Custom.json](./grafana/provisioning/dashboards/RabbitMQ-Overview-Custom.json)
 - [Redis-Overview-Custom.json](./grafana/provisioning/dashboards/Redis-Dashboard-Custom.json)
 - [MySQL-Overview-Custom.json](./grafana/provisioning/dashboards/MySQL-Overview-Custom.json)
+
+## Cách sử dụng
+
+Đảm bảo các file dashboard được đặt trong thư mục:
+
+```bash
+./grafana/provisioning/dashboards/
+```
+
+Grafana sẽ tự động load dashboard khi container/service được khởi động lại:
+
+```bash
+docker compose restart grafana
+```
+
+---
+
+## Lưu ý về datasource
+
+Các dashboard provisioning cần datasource có **UID cố định**.
+
+### Ví dụ cấu hình
+
+```json
+"datasource": {
+  "type": "prometheus",
+  "uid": "prometheus"
+}
+```
+
+hoặc:
+
+```json
+"datasource": {
+  "type": "alexanderzobnin-zabbix-datasource",
+  "uid": "zabbix-datasource"
+}
+```
+
+---
+
+## Các lỗi thường gặp
+
+Nếu UID datasource trên Grafana không khớp, dashboard có thể bị lỗi:
+
+- Datasource not found  
+- No data  
+- Panel không hiển thị dữ liệu  
