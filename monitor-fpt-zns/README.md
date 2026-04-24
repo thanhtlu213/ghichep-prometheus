@@ -86,7 +86,7 @@ uid: zabbix-datasource
 
 ---------------------------------------------------------------------------
 <details>
-<summary><b>Chuẩn hóa datasource cho provisioning</b></summary>
+<summary><h2>Chuẩn hóa datasource cho provisioning</h2></summary>
 
 <br>
 
