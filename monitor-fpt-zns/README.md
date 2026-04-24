@@ -1,6 +1,12 @@
 # prometheus-notes
 
-## Sử dụng các Dashboard:
+## Dashboard provisioning
+
+Các dashboard dưới đây được sử dụng theo cơ chế **Grafana provisioning**.
+ 
+> Cần copy vào đúng thư mục provisioning/dashboard trên server Grafana.
+
+## Danh sách dashboard
 
 - [Blackbox-Exporter-HTTP-Prober-Custom.json](./grafana/provisioning/dashboards/Blackbox-Exporter-HTTP-Prober-Custom.json)
 - [Dashboard-Monitoring-All-Server-Overview.json](./grafana/provisioning/dashboards/Dashboard-Monitoring-All-Server-Overview.json)
