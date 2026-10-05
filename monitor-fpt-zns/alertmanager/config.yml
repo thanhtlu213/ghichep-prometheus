@@ -14,8 +14,8 @@ receivers:
   - name: 'telegram'
     telegram_configs:
       - api_url: https://api.telegram.org
-        bot_token: '5906684600:AAEzs4zor9U3kn3VHerjCHt_Sz5impVHyrY'
-        chat_id: -4545202326
+        bot_token: 'xxxxxxxxxx:yyyyyyyyyy'
+        chat_id: -xxxxxxxxxx
         message: '{{ template "telegram.thanhnv.message" . }}'
 
 inhibit_rules:
