@@ -22,7 +22,7 @@ rule_files:
   - "nginx-exporter.rules"
   - "rabbitmq_alerts.rules"
   - "mysql-exporter.rules"
-  #- "blackbox-exporter.rules"
+  - "blackbox-exporter.rules"
   - "maxscale-exporter.rules"
   - "redis-exporter.rules"
 
