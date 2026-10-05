@@ -22,7 +22,7 @@ rule_files:
   - "nginx-exporter.rules"
   - "rabbitmq_alerts.rules"
   - "mysql-exporter.rules"
-  - "blackbox-exporter.rules"
+  #- "blackbox-exporter.rules"
   - "maxscale-exporter.rules"
   - "redis-exporter.rules"
 
@@ -136,7 +136,7 @@ scrape_configs:
       separator: ':'
       regex: '(.*):(.*)'
       replacement: '${1}'
-      target_label: instance
+      target_label: instance   
 
   - job_name: 'ZNS-Portal'
     scrape_interval: 5s
@@ -164,17 +164,6 @@ scrape_configs:
     scrape_interval: 10s
     static_configs:
       - targets: ['10.92.6.1:9113', '10.92.6.2:9113', '10.92.6.3:9113', '10.92.6.4:9113', '10.92.6.5:9113']
-    relabel_configs:
-    - source_labels: [__address__]
-      separator: ':'
-      regex: '(.*):(.*)'
-      replacement: '${1}'
-      target_label: instance
-
-  - job_name: 'Nginx-WORKER'
-    scrape_interval: 10s
-    static_configs:
-      - targets: ['10.92.10.101:9113', '10.92.10.102:9113', '10.92.10.103:9113', '10.92.10.104:9113', '10.92.10.105:9113']
     relabel_configs:
     - source_labels: [__address__]
       separator: ':'
@@ -364,26 +353,4 @@ scrape_configs:
       separator: ':'
       regex: '(.*):(.*)'
       replacement: '${1}'
-      target_label: instance
-
-  - job_name: 'HAProxy-RabbitMQ'
-    scrape_interval: 10s
-    static_configs:
-      - targets: ['10.92.6.28:9101','10.92.6.29:9101']
-    relabel_configs:
-    - source_labels: [__address__]
-      separator: ':'
-      regex: '(.*):(.*)'
-      replacement: '${1}'
-      target_label: instance 
-
-  - job_name: 'HAProxy-Redis'
-    scrape_interval: 10s
-    static_configs:
-      - targets: ['10.92.10.28:9101','10.92.10.29:9101']
-    relabel_configs:
-    - source_labels: [__address__]
-      separator: ':'
-      regex: '(.*):(.*)'
-      replacement: '${1}'
-      target_label: instance
+      target_label: instance        

@@ -81,22 +81,22 @@ groups:
         description: "Disk is almost full (< 15% left)\n  VALUE = {{ $value }}"
     
     - alert: HostUnusualDiskIo        # Time spent in IO is too high
-      expr: '(rate(node_disk_io_time_seconds_total{device=~"sd[a-z]+"}[1m]) * 100 > 80) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
-      for: 2m
+      expr: '(rate(node_disk_io_time_seconds_total{device=~"sd[a-z]+"}[1m]) * 100 > 90) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+      for: 3m
       labels:
         severity: warning
       annotations:
         summary: Host unusual disk IO (instance {{ $labels.instance }})
-        description: "Time spent in IO is too high (> 80%) on {{ $labels.instance }}. Check storage for issues.\n  VALUE = {{ $value }}"
+        description: "Time spent in IO is too high (> 90%) on {{ $labels.instance }}. Check storage for issues.\n  VALUE = {{ $value }}"
 
-    - alert: HostUnusualDiskReadRate        # Disk is probably reading too much data (> 50 MB/s)
-      expr: '(sum by (instance) (rate(node_disk_read_bytes_total[2m])) / 1024 / 1024 > 50) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
+    - alert: HostUnusualDiskReadRate        # Disk is probably reading too much data (> 80 MB/s)
+      expr: '(sum by (instance) (rate(node_disk_read_bytes_total[2m])) / 1024 / 1024 > 80) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
       for: 5m
       labels:
         severity: warning
       annotations:
         summary: Host unusual disk read rate (instance {{ $labels.instance }})
-        description: "Disk is probably reading too much data (> 50 MB/s)\n  VALUE = {{ $value }}"
+        description: "Disk is probably reading too much data (> 80 MB/s)\n  VALUE = {{ $value }}"
 
     - alert: HostUnusualDiskWriteRate        # Disk is probably writing too much data (> 50 MB/s)
       expr: '(sum by (instance) (rate(node_disk_written_bytes_total[2m])) / 1024 / 1024 > 50) * on(instance) group_left (nodename) node_uname_info{nodename=~".+"}'
